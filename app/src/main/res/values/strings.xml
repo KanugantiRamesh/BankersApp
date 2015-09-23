@@ -9,6 +9,10 @@
     <string name="rules_qustion"> &#xf059;</string>
     <string name="dash_board">&#xf0e4;</string>
     <string name="bell">&#xf0f3;</string>
-
-
+    <string name="icon_start"> &#xf0e7;</string>
+    <string name="correct_icon">&#xf058;</string>
+    <string name="wrong_answer">&#xf057;</string>
+    <string name="download_icon">&#xf019;</string>
+    <string name="speed_icon">&#xf135;</string>
+    <string name="timer_icon">&#xf133;</string>
 </resources>

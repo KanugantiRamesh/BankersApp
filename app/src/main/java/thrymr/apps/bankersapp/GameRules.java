@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import thrymr.apps.materialtests.R;
+import thrymr.apps.bankersapp.R;
 
 /**
  * Created by thrymr on 23/9/15.

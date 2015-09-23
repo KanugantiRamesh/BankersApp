@@ -3,4 +3,9 @@
     <declare-styleable name="ScrimInsetsView">
           <attr name="insetForeground" format="reference|color" />
       </declare-styleable>
+    <attr name="textFieldStyle" format="reference" />
+    <attr name="fontPath" format="string" />
+    <declare-styleable name="ExpandableTextView">
+        <attr name="trimLength" format="integer" />
+    </declare-styleable>
 </resources>

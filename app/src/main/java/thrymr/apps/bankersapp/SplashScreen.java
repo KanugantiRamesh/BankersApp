@@ -59,8 +59,6 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
     public void onConnected(Bundle bundle) {
         Log.d("mGoogleApiClient", "ABCD:" + mGoogleApiClient.isConnected());
 
-        Log.e("peopleApi", "++++++++=" + Plus.PeopleApi);
-        Log.e("peopleApi", "---------" + Plus.PeopleApi.getCurrentPerson(mGoogleApiClient));
         if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
             Log.d("onConnected", "ABCD:" + bundle);
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
@@ -75,7 +73,7 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
                 try {
                     userCredentials.save();
                     Log.e("userCredentials", "userCredentials" + userCredentials.getUserName() + userCredentials.getEmail());
-                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    Intent intent = new Intent(SplashScreen.this, StartActivity.class);
                     startActivity(intent);
                     finish();
                 } catch (com.parse.ParseException e) {

@@ -1,6 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#12AEAA"
+    android:orientation="vertical">
 
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutBulb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+
+            android:src="@drawable/bulb_banker" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutTextBold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutBulb"
+        android:layout_marginTop="30dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Ready to start your \n Speed Maths Challenge"
+            android:textColor="#FFF"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutTextBold"
+        android:layout_marginTop="30dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textViewStartDailyChallenge"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/circle_white"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:text="@string/icon_start"
+            android:textColor="#324959"
+            android:textSize="50sp" />
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:paddingTop="60dp"
+            android:text="START"
+            android:textColor="#000"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="30dp"
+        android:background="#37474F"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:text="Complete as many calucations \n as possible in 3 minutes"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+</RelativeLayout>

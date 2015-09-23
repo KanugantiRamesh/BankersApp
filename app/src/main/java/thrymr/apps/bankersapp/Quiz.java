@@ -2,10 +2,14 @@ package thrymr.apps.bankersapp;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -22,16 +26,16 @@ import java.util.List;
 /**
  * Created by thrymr on 23/9/15.
  */
-public class Quiz extends AppCompatActivity{
+public class Quiz extends Fragment {
 
 
-    List<Question> quesList =  new ArrayList<Question>();
-
-    CheckBox[] userAnswers = { null, null, null, null, null, null, null, null,
-            null,null,null,null};
-    boolean[] attepmted = { false, false, false, false, false, false, false,
-            false, false, false,false,false};
-   static int correct,wrong,total;
+    List<Question> quesList = new ArrayList<Question>();
+    View view;
+    CheckBox[] userAnswers = {null, null, null, null, null, null, null, null,
+            null, null, null, null};
+    boolean[] attepmted = {false, false, false, false, false, false, false,
+            false, false, false, false, false};
+    static int correct, wrong, total;
 
     static int score = 0;
     Integer QuizModelNumber = 0;
@@ -43,50 +47,39 @@ public class Quiz extends AppCompatActivity{
     CheckBox checkBox1, checkBox2, checkBox3, checkBox4;
     String answer;
 
-    Button butNext, butPrevious, butFinish,save,get;
+    Button butNext, butPrevious, butFinish, save, get;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.quiz);
-      /*  CreateDatabase crtDB = new CreateDatabase();
-        crtDB.create();
-*/
-
-      /*  QuizQuestionsSaving crtDb = new QuizQuestionsSaving();
-        crtDb.create();*/
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.quiz, container, false);
         ParseObject.registerSubclass(Question.class);
-        txtQuizModel = (TextView) findViewById(R.id.textView1);
-        checkBox1 = (CheckBox) findViewById(R.id.checkBox01);
-        checkBox2 = (CheckBox) findViewById(R.id.checkBox02);
-        checkBox3 = (CheckBox) findViewById(R.id.checkBox03);
-        checkBox4 = (CheckBox) findViewById(R.id.checkBox04);
-        butNext = (Button) findViewById(R.id.nextButton);
-        butPrevious = (Button) findViewById(R.id.previousButton);
-        butFinish = (Button) findViewById(R.id.Finish);
-        get = (Button) findViewById(R.id.get);
-        save = (Button)findViewById(R.id.save);
+        txtQuizModel = (TextView) view.findViewById(R.id.textView1);
+        checkBox1 = (CheckBox) view.findViewById(R.id.checkBox01);
+        checkBox2 = (CheckBox) view.findViewById(R.id.checkBox02);
+        checkBox3 = (CheckBox) view.findViewById(R.id.checkBox03);
+        checkBox4 = (CheckBox) view.findViewById(R.id.checkBox04);
+        butNext = (Button) view.findViewById(R.id.nextButton);
+        butPrevious = (Button) view.findViewById(R.id.previousButton);
+        butFinish = (Button) view.findViewById(R.id.Finish);
+        save = (Button) view.findViewById(R.id.save);
+        get = (Button) view.findViewById(R.id.get);
+        get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getData();
+            }
+        });
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                save();
+            }
+        });
 
-get.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        getData();
+        return view;
     }
-});
-save.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        save();
-    }
-});
 
-
-
-        //  quesList = QuizModel.listAll(QuizModel.class);
-        //   Log.d("QuizModel list", " " + quesList);]
-
-
-    }
 
     private void showQuizModel(Question currentQuizModel) {
         txtQuizModel.setText("Q" + (QuizModelNumber + 1) + "\n   "
@@ -100,10 +93,7 @@ save.setOnClickListener(new View.OnClickListener() {
     }
 
 
-
     private View.OnClickListener listner = new View.OnClickListener() {
-
-
 
 
         @SuppressLint("ShowToast")
@@ -145,7 +135,7 @@ save.setOnClickListener(new View.OnClickListener() {
                     intent.putExtras(b); // Put your score to your next Intent
                     score = 0;
                     startActivity(intent);*/
-                    finish();
+                    getActivity().finish();
 
                 }
 
@@ -163,28 +153,28 @@ save.setOnClickListener(new View.OnClickListener() {
 
                 // Log.d("storing ans of que no   after checking "+QuizModelNumber,userAnswers[QuizModelNumber].getText().toString());
                 QuizModelNumber++;
-                Log.e("QuizModelNumber"+QuizModelNumber+"","size of"+quesList.size());
+                Log.e("QuizModelNumber" + QuizModelNumber + "", "size of" + quesList.size());
                 if (QuizModelNumber < quesList.size()) {
-                if (userAnswers[QuizModelNumber] == null) {
-                    checkBox1.setChecked(false);
-                    checkBox2.setChecked(false);
-                    checkBox3.setChecked(false);
-                    checkBox4.setChecked(false);
-                } else {
-                    userAnswers[QuizModelNumber].setChecked(true);
-                }
+                    if (userAnswers[QuizModelNumber] == null) {
+                        checkBox1.setChecked(false);
+                        checkBox2.setChecked(false);
+                        checkBox3.setChecked(false);
+                        checkBox4.setChecked(false);
+                    } else {
+                        userAnswers[QuizModelNumber].setChecked(true);
+                    }
 
 
                     currentQuizModel = quesList.get(QuizModelNumber);
 
-                    if (QuizModelNumber == quesList.size()-1) {
+                    if (QuizModelNumber == quesList.size() - 1) {
                         butNext.setText("Finish");
                     }
                     showQuizModel(currentQuizModel);
 
                 } else {
 
-                   Log.d("result"+score+"--","===");
+                    Log.d("result" + score + "--", "===");
                 /*    Intent intent = new Intent(MainActivity.this,
                             ResultActivity.class);
                     Bundle b = new Bundle();
@@ -192,7 +182,7 @@ save.setOnClickListener(new View.OnClickListener() {
                     intent.putExtras(b);// Put your score to your next Intent
                     score = 0;
                     startActivity(intent);*/
-                    finish();
+                    getActivity().finish();
 
                 }
 
@@ -206,29 +196,31 @@ save.setOnClickListener(new View.OnClickListener() {
                 intent.putExtras(b);
                 score = 0;
                 startActivity(intent);*/
-                finish();
+                getActivity().finish();
             }
         }
 
     };
-public void save(){
-    Question q = new Question();
-    q.setQuestion(" Which of the following is a valid declaration of an object of class Box?");
-    q.setOptionA("Box obj = new Box();");
-    q.setOptionB("Box obj = new Box;");
-    q.setOptionC("obj = new Box();");
-    q.setOptionD("new Box obj;");
-    q.setAnswer( "Box obj = new Box();");
-   q.saveInBackground();
 
+    public void save() {
+       /* Question q = new Question();
+        q.setQuestion(" Which of the following is a valid declaration of an object of class Box?");
+        q.setOptionA("Box obj = new Box();");
+        q.setOptionB("Box obj = new Box;");
+        q.setOptionC("obj = new Box();");
+        q.setOptionD("new Box obj;");
+        q.setAnswer("Box obj = new Box();");
+        q.saveInBackground();
+*/
 
-}
-    public void getData(){
+    }
+
+    public void getData() {
         ParseQuery<Question> query = ParseQuery.getQuery(Question.class);
         try {
             Log.e("=====================", "s" + query.toString() + "777" + query.count());
             quesList = query.find();
-            Log.e("size"+quesList.size(),"");
+            Log.e("size" + quesList.size(), "");
           /*  for (int i = 0; i < obj.size(); i++) {
                 Question task = obj.get(i);
 
@@ -299,12 +291,7 @@ public void save(){
         checkBox3.setOnCheckedChangeListener(listenerCheck);
         checkBox4.setOnCheckedChangeListener(listenerCheck);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+
 
     private CompoundButton.OnCheckedChangeListener listenerCheck = new CompoundButton.OnCheckedChangeListener() {
 
@@ -318,7 +305,7 @@ public void save(){
                         checkBox2.setChecked(false);
                         checkBox3.setChecked(false);
                         checkBox4.setChecked(false);
-                      //  showNextQuestion();
+                        //  showNextQuestion();
                         break;
                     case R.id.checkBox02:
                         userAnswers[QuizModelNumber] = checkBox2;
@@ -326,7 +313,7 @@ public void save(){
                         checkBox2.setChecked(true);
                         checkBox3.setChecked(false);
                         checkBox4.setChecked(false);
-                      //  showNextQuestion();
+                        //  showNextQuestion();
                         break;
                     case R.id.checkBox03:
                         userAnswers[QuizModelNumber] = checkBox3;
@@ -342,7 +329,7 @@ public void save(){
                         checkBox2.setChecked(false);
                         checkBox3.setChecked(false);
                         checkBox4.setChecked(true);
-                      //  showNextQuestion();
+                        //  showNextQuestion();
                         break;
 
                 }
@@ -350,7 +337,7 @@ public void save(){
         }
     };
 
-    public void  showNextQuestion() {
+    public void showNextQuestion() {
 
         // Log.d("storing ans of que no"+QuizModelNumber,userAnswers[QuizModelNumber].getText().toString());
 
@@ -370,10 +357,10 @@ public void save(){
         if (QuizModelNumber < quesList.size()) {
             currentQuizModel = quesList.get(QuizModelNumber);
 
-            if (QuizModelNumber == quesList.size()-1) {
+            if (QuizModelNumber == quesList.size() - 1) {
                 butNext.setText("Finish");
             }
-           showQuizModel(currentQuizModel);
+            showQuizModel(currentQuizModel);
 
         } else {
 
@@ -389,6 +376,7 @@ public void save(){
 
         }
     }
+
     private void checkAnswer() {
 
         if (getAnswer() != null) {
@@ -398,21 +386,21 @@ public void save(){
             Log.d("Correct answer", "" + currentQuizModel.toString());
             Log.d("your answer", "" + getAnswer().getText().toString());
             if (currentQuizModel.getAnswer().equals(getAnswer().getText().toString())) {
-                if (attepmted[QuizModelNumber]==false) {
+                if (attepmted[QuizModelNumber] == false) {
                     score++;
-                    correct = correct+10;
-                    total = total+correct;
+                    correct = correct + 10;
+                    total = total + correct;
 
-                    attepmted[QuizModelNumber]=true;
+                    attepmted[QuizModelNumber] = true;
                     Log.d("correct answer", " score" + score);
                 }
 
             } else {
-                wrong = wrong-10;
-                total = total-wrong;
+                wrong = wrong - 10;
+                total = total - wrong;
                 Log.d("wrong answer", "score" + score);//
             }
-            Log.d("correct"+correct+"wrong"+wrong, "total" + total);
+            Log.d("correct" + correct + "wrong" + wrong, "total" + total);
         }
 
     }
@@ -420,20 +408,20 @@ public void save(){
     private CheckBox getAnswer() {
 
         if (checkBox1.isChecked()) {
-            Log.d("elseelse",""+(CheckBox) findViewById(R.id.checkBox01)+"");
+            Log.d("elseelse", "" + (CheckBox) view.findViewById(R.id.checkBox01) + "");
 
-            return (CheckBox) findViewById(R.id.checkBox01);
+            return (CheckBox) view.findViewById(R.id.checkBox01);
         } else if (checkBox2.isChecked()) {
 
-            return (CheckBox) findViewById(R.id.checkBox02);
+            return (CheckBox) view.findViewById(R.id.checkBox02);
         } else if (checkBox3.isChecked()) {
 
-            return (CheckBox) findViewById(R.id.checkBox03);
+            return (CheckBox) view.findViewById(R.id.checkBox03);
         } else if (checkBox4.isChecked()) {
 
-            return (CheckBox) findViewById(R.id.checkBox04);
+            return (CheckBox) view.findViewById(R.id.checkBox04);
         } else {
-            Log.d("elseelse","else");
+            Log.d("elseelse", "else");
             // Toast.makeText(QuizActivity.this, "please select a option",
             // Toast.LENGTH_SHORT).show();
             return null;
