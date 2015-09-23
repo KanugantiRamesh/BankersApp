@@ -3,6 +3,8 @@ package thrymr.apps.materialtests.models;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import java.util.Date;
+
 /**
  * Created by thrymr on 23/9/15.
  */
@@ -24,6 +26,13 @@ public class DailyChallenge extends ParseObject {
 
     public void setUserScoredPoints(Number scoredPoints) {
         put("points_scored", scoredPoints);
+    }
+    public Date getDate() {
+        return getDate("test_date");
+    }
+
+    public void setDate(Date date) {
+        put("test_date", date);
     }
 
     @Override

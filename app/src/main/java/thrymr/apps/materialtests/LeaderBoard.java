@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -53,14 +52,15 @@ List<DailyChallenge> listValues = new ArrayList<>();
 
                     DailyChallenge c = new DailyChallenge();
                     c.setUserName(challenge.getUserName());
-                   c.setUserScoredPoints(challenge.getUserScoredPoints());
+                    c.setUserScoredPoints(challenge.getUserScoredPoints());
+                    c.setDate(challenge.getDate());
                     listValues.add(c);
                     Log.d("listVaues are ----->", "" + listValues);
 
 
 
                 }
-                ArrayAdapter<DailyChallenge> adapter = new ArrayAdapter<DailyChallenge>(getActivity(), R.layout.list_item, listValues);
+                LeaderBoardAdapter adapter = new LeaderBoardAdapter(getActivity(),  listValues);
                 listview.setAdapter(adapter);
             }
         });

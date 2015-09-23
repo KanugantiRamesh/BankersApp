@@ -1,11 +1,11 @@
 package thrymr.apps.materialtests;
 
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -42,7 +42,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        Fragment newfrag = null;
         switch (position) {
             case 0:
                 break;
