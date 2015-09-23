@@ -24,7 +24,7 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
     <!-- android:layout_marginTop="?android:attr/actionBarSize"-->
-    <thrymr.apps.materialtests.ScrimInsetsFrameLayout
+    <thrymr.apps.bankersapp.ScrimInsetsFrameLayout
         android:id="@+id/scrimInsetsFrameLayout"
         android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="wrap_content"
@@ -37,10 +37,10 @@
 
         <fragment
             android:id="@+id/fragment_drawer"
-            android:name="thrymr.apps.materialtests.NavigationDrawerFragment"
+            android:name="thrymr.apps.bankersapp.NavigationDrawerFragment"
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:layout="@layout/fragment_navigation_drawer"/>
-    </thrymr.apps.materialtests.ScrimInsetsFrameLayout>
+    </thrymr.apps.bankersapp.ScrimInsetsFrameLayout>
 </android.support.v4.widget.DrawerLayout>

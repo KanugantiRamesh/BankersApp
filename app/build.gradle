@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.poliveira.apps.materialtests"
-        minSdkVersion 11
+        minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -25,4 +25,7 @@ dependencies {
     //noinspection GradleDependency
     compile "com.android.support:appcompat-v7:22.0.0"
     compile 'com.android.support:recyclerview-v7:22.0.0'
+    compile 'com.google.android.gms:play-services:7.8.0'
+    compile 'com.google.android.gms:play-services-identity:7.8.0'
+    compile "com.google.android.gms:play-services-gcm:7.8.0"
 }
