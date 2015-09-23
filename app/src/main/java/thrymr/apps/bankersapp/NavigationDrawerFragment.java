@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     private boolean mFromSavedInstanceState;
     private int mCurrentSelectedPosition;
     Typeface font;
+    TextView userName, userEmail;
 
 
     @Nullable
@@ -45,6 +47,10 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_google, container, false);
         mDrawerList = (RecyclerView) view.findViewById(R.id.drawerList);
+        userName = (TextView) view.findViewById(R.id.txtUsername);
+        userEmail = (TextView) view.findViewById(R.id.txtUserEmail);
+        userName.setText(SplashScreen.personName);
+        userEmail.setText(SplashScreen.personEmail);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDrawerList.setLayoutManager(layoutManager);
@@ -54,7 +60,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
 
         final List<NavigationItem> navigationItems = getMenu();
-        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(navigationItems,font);
+        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(navigationItems, font);
         adapter.setNavigationDrawerCallbacks(this);
         mDrawerList.setAdapter(adapter);
         selectItem(mCurrentSelectedPosition);
@@ -208,7 +214,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 
-        Log.e("","onNavigationDrwaesrSelected"+position);
+        Log.e("", "onNavigationDrwaesrSelected" + position);
         selectItem(position);
     }
 

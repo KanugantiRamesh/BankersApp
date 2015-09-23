@@ -14,11 +14,16 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.parse.LogInCallback;
+import com.parse.Parse;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.ParseException;
 
 /**
  * Created by thrymr on 23/9/15.
@@ -28,14 +33,16 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
     private GoogleApiClient mGoogleApiClient;
     private boolean mIsResolving = false;
     private boolean mShouldResolve = false;
-    private String personName;
-    private String personEmail;
+    public static String personName;
+    public static String personEmail;
     private static final int RC_SIGN_IN = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
+        Parse.initialize(this, "5QPOyyZjjWf0xyWXpBfwf6bNljAYzu9wmGsti1DN", "lkaXuewH6QYMXcqovcmw9Dr3BJ5ghMpJ7MnFCK1x");
+        ParseObject.registerSubclass(UserCredentials.class);
         Log.d("onCreate", "ABCD");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -57,13 +64,23 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
         if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
             Log.d("onConnected", "ABCD:" + bundle);
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-            personName = currentPerson.getDisplayName();
-            personEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
-            Log.e("personName", "ABCD" + personName);
-            if (personName != null) {
-                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+            if (currentPerson != null) {
+                personName = currentPerson.getDisplayName();
+                personEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
+                Log.e("personName", "ABCD" + personName + personEmail);
+                UserCredentials userCredentials = new UserCredentials();
+
+                userCredentials.setUserName(personName);
+                userCredentials.setEmail(personEmail);
+                try {
+                    userCredentials.save();
+                    Log.e("userCredentials", "userCredentials" + userCredentials.getUserName() + userCredentials.getEmail());
+                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } catch (com.parse.ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
