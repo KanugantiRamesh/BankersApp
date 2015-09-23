@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
     private int mCurrentSelectedPosition;
+    Typeface font;
 
 
     @Nullable
@@ -47,8 +50,11 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mDrawerList.setLayoutManager(layoutManager);
         mDrawerList.setHasFixedSize(true);
 
+        font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/fontawesome-webfont.ttf");
+
+
         final List<NavigationItem> navigationItems = getMenu();
-        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(navigationItems);
+        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(navigationItems,font);
         adapter.setNavigationDrawerCallbacks(this);
         mDrawerList.setAdapter(adapter);
         selectItem(mCurrentSelectedPosition);
@@ -142,13 +148,13 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     public List<NavigationItem> getMenu() {
         List<NavigationItem> items = new ArrayList<NavigationItem>();
-        items.add(new NavigationItem("Daily Challenge", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new NavigationItem("Speed Maths Challenge", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new NavigationItem("Leaderboard", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new NavigationItem("Important Updates", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new NavigationItem("Premium Training", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new NavigationItem("1800-100-200", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new NavigationItem("Rules of Challenge", getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new NavigationItem("Daily Challenge", getResources().getString(R.string.rules_qustion)));
+        items.add(new NavigationItem("Speed Maths Challenge", getResources().getString(R.string.dash_board)));
+        items.add(new NavigationItem("Leaderboard", getResources().getString(R.string.bell)));
+        items.add(new NavigationItem("Important Updates", getResources().getString(R.string.rules_qustion)));
+        items.add(new NavigationItem("Premium Training", getResources().getString(R.string.dash_board)));
+        items.add(new NavigationItem("1800-100-200", getResources().getString(R.string.bell)));
+        items.add(new NavigationItem("Rules of Challenge", getResources().getString(R.string.rules_qustion)));
 
         return items;
     }
@@ -201,6 +207,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+
+        Log.e("","onNavigationDrwaesrSelected"+position);
         selectItem(position);
     }
 

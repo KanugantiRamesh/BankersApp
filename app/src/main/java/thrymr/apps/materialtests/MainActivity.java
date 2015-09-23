@@ -29,6 +29,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
         Parse.initialize(this, "5QPOyyZjjWf0xyWXpBfwf6bNljAYzu9wmGsti1DN", "lkaXuewH6QYMXcqovcmw9Dr3BJ5ghMpJ7MnFCK1x");
 
 
+
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.fragment_drawer);
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
     }
@@ -76,6 +77,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
             default:
                 break;
         }
+        Toast.makeText(this, "Menu item selected -> " + position, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
