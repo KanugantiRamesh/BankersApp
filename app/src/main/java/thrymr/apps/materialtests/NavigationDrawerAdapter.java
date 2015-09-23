@@ -1,7 +1,10 @@
 package thrymr.apps.materialtests;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,9 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
-
-import thrymr.apps.materialtests.NavigationDrawerCallbacks;
-import thrymr.apps.materialtests.NavigationItem;
 
 /**
  * Created by poliveira on 24/10/2014.
@@ -23,8 +23,15 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     private int mSelectedPosition;
     private int mTouchedPosition = -1;
 
-    public NavigationDrawerAdapter(List<NavigationItem> data) {
+    Typeface font;
+    String fontText[] ={"&#xf1ea;","&#xf0e7;","&#xf26c","&#xf0f3;","&#xf133;","&#xf098;","&#xf059;"};
+
+
+
+    public NavigationDrawerAdapter(List<NavigationItem> data,Typeface font1) {
         mData = data;
+        font = font1;
+        //font = Typeface.createFromAsset(mContext.getAssets(), "fonts/fontawesome-webfont.ttf");
     }
 
     public NavigationDrawerCallbacks getNavigationDrawerCallbacks() {
@@ -37,7 +44,11 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
     @Override
     public NavigationDrawerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.drawer_row, viewGroup, false);
+
+
+
         final ViewHolder viewholder = new ViewHolder(v);
         viewholder.itemView.setOnTouchListener(new View.OnTouchListener() {
                                                    @Override
@@ -73,8 +84,16 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
     @Override
     public void onBindViewHolder(NavigationDrawerAdapter.ViewHolder viewHolder, final int i) {
+
+        viewHolder.fontAwesome.setTypeface(font);
+
         viewHolder.textView.setText(mData.get(i).getText());
-        viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getDrawable(), null, null, null);
+        Log.e("", "getString font" + mData.get(i).getText() + "    fontawesome" + font);
+       viewHolder.fontAwesome.setText(Html.fromHtml(fontText[i]));
+
+
+        //viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getText(), null, null, null);
+
 
         //TODO: selected menu position, change layout accordingly
         if (mSelectedPosition == i || mTouchedPosition == i) {
@@ -106,11 +125,13 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        public TextView textView, fontAwesome;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.item_name);
+            fontAwesome = (TextView) itemView.findViewById(R.id.textViewfontAwesome);
         }
     }
 }

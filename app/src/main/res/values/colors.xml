@@ -8,9 +8,9 @@
         http://www.google.com/design/spec/style/color.html#color-ui-color-palette
     -->
 
-    <color name="myPrimaryColor">#3F51B5</color>
-    <color name="myPrimaryDarkColor">#3F51B5</color>
-    <color name="myAccentColor">#3F51B5</color>
+    <color name="myPrimaryColor">#884B9B</color>
+    <color name="myPrimaryDarkColor">#884B9B</color>
+    <color name="myAccentColor">#884B9B</color>
     <color name="myDrawerBackground">#F2F2F2</color>
     <color name="myWindowBackground">#DEDEDE</color>
     <color name="myTextPrimaryColor">#FFFFFF</color>
