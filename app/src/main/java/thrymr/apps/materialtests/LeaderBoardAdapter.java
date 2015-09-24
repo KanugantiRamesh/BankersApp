@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import thrymr.apps.bankersapp.R;
 import thrymr.apps.materialtests.models.DailyChallenge;
 
 /**
@@ -23,7 +24,7 @@ public class LeaderBoardAdapter extends ArrayAdapter<LeaderBoardAdapter> {
     ListView searchListview;
 
     public LeaderBoardAdapter(final Context searchActivity,
-                            final List<DailyChallenge> listData) {
+                              final List<DailyChallenge> listData) {
         super(searchActivity, R.layout.list_item);
 
         this.context = searchActivity;
@@ -65,17 +66,16 @@ public class LeaderBoardAdapter extends ArrayAdapter<LeaderBoardAdapter> {
                 .getUserScoredPoints().toString());
 
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        String datas=format.format(this.foodDetails.get(position)
+        String datas = format.format(this.foodDetails.get(position)
                 .getDate());
         holder.date.setText(datas);
-
 
 
         return row;
     }
 
     public class ViewHolder {
-        public TextView meals, no_plates,date;
+        public TextView meals, no_plates, date;
 
         public ViewHolder(final View v) {
             this.meals = (TextView) v.findViewById(R.id.mealsDetails);

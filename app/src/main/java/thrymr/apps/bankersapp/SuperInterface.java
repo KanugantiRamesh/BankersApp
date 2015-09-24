@@ -13,4 +13,6 @@ public interface SuperInterface {
     void leaderBoard();
 
     void reviewQuestions();
+
+    void callMathChallengeFragment();
 }

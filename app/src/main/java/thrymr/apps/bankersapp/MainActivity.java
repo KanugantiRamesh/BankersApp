@@ -1,7 +1,7 @@
 package thrymr.apps.bankersapp;
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -65,7 +65,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
             case 1:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.container, new thrymr.apps.bankersapp.MathChallengeFragment(),
+                        .replace(R.id.container, new MathChallengeFragment(),
                                 "NavBackStack0").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
                 break;
             case 2:
@@ -148,6 +148,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
     @Override
     public void reviewQuestions() {
         android.support.v4.app.Fragment appointmentsFragmnet = new ReviewFragment();
+        this.startNewFragment(appointmentsFragmnet, "leaderBoard");
+    }
+
+    @Override
+    public void callMathChallengeFragment() {
+        android.support.v4.app.Fragment appointmentsFragmnet = new MathChallengeFragment();
         this.startNewFragment(appointmentsFragmnet, "leaderBoard");
     }
 

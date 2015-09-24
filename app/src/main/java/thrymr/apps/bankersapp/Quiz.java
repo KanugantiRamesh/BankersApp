@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -177,7 +175,6 @@ public class Quiz extends Fragment {
                     showQuizModel(currentQuizModel);
 
                 } else {
-
                     Log.d("result" + score + "--", "===");
                     Integer integer = 300 - Integer.parseInt(timer.getText().toString());
                     MainActivity.bundle.putInt("totalPoints", total);
@@ -186,16 +183,6 @@ public class Quiz extends Fragment {
                     Log.d("Counter", "ABCD" + MainActivity.counter);
                     Quiz.this.superInterface.resultScreen();
                 }
-
-
-            }
-            if (v == butFinish) {
-                checkAnswer();
-                Integer integer = 300 - Integer.parseInt(timer.getText().toString());
-
-                MainActivity.bundle.putInt("totalPoints", total);
-                MainActivity.bundle.putInt("time", integer);
-                Quiz.this.superInterface.resultScreen();
             }
         }
 
