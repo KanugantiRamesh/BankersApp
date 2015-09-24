@@ -1,12 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tv"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_marginBottom="4dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="4dp"
-    android:gravity="left"
-    android:paddingLeft="10sp"
-    android:text="example"
-    android:textColor="#000" />
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    tools:ignore="MissingPrefix">
+
+
+    <TextView
+        android:id="@+id/mealsDetails"
+        fontPath="fonts/Lato-Bold.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Masala Dosa"
+        android:textColor="#323232"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/no_of_plates"
+        fontPath="fonts/Lato-Italic.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+
+        android:text="1 plate"
+        android:textColor="#6D6D6D"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/datess"
+
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/no_of_plates"
+        android:textSize="12sp"
+        android:text="Points"
+        android:textColor="#000" />
+
+    <TextView
+
+        android:id="@+id/datess"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/mealsDetails"
+
+        android:text="Date"
+        android:textColor="#000" android:textSize="12sp"/>
+
+    <LinearLayout
+        android:layout_width="0.1dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/no_of_plates"
+        android:layout_marginEnd="41dp"
+        android:layout_marginRight="41dp"
+        android:layout_toLeftOf="@+id/no_of_plates"
+        android:layout_toStartOf="@+id/no_of_plates"
+        android:background="#000"
+        android:orientation="horizontal"></LinearLayout>
+
+</RelativeLayout>
