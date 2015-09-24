@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import thrymr.apps.bankersapp.R;
 import thrymr.apps.materialtests.models.DailyChallenge;
 
 /**

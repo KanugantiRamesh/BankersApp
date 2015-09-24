@@ -12,18 +12,18 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import thrymr.apps.materialtests.models.UpdatesPojo;
+import thrymr.apps.materialtests.models.Updates;
 
 /**
  * Created by thrymr on 23/9/15.
  */
 public class UpdatesAdapter extends ArrayAdapter<UpdatesAdapter> {
-    private final List<UpdatesPojo> foodDetails;
+    private final List<Updates> foodDetails;
     private final Context context;
     ListView searchListview;
     Typeface font;
 
-    public UpdatesAdapter(final Context searchActivity, final List<UpdatesPojo> listData) {
+    public UpdatesAdapter(final Context searchActivity, final List<Updates> listData) {
         super(searchActivity, R.layout.item_updates);
 
         font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
@@ -62,22 +62,37 @@ public class UpdatesAdapter extends ArrayAdapter<UpdatesAdapter> {
 
             holder = (ViewHolder) row.getTag();
 
-        String userName = this.foodDetails.get(position).getEvevt();
+        String userName = this.foodDetails.get(position).getUpdateType();
         holder.meals.setText(userName);
+        if(userName.equalsIgnoreCase("event")){
+            holder.circle.setBackgroundResource(R.drawable.circle_green);
+            holder.circle.setText(R.string.events);
+
+
+        }else if(userName.equalsIgnoreCase("offer")){
+            holder.circle.setBackgroundResource(R.drawable.circle_blue);
+            holder.circle.setText(R.string.offer);
+        }else{
+            holder.circle.setBackgroundResource(R.drawable.circle_red);
+            holder.circle.setText(R.string.updates);
+        }
+
         holder.no_plates.setText(this.foodDetails.get(position).getDescription().toString());
 
         return row;
     }
 
     public class ViewHolder {
-        public TextView meals, no_plates, fontAwesome;
+        public TextView meals, no_plates, fontAwesome,circle;
 
         public ViewHolder(final View v) {
             this.meals = (TextView) v.findViewById(R.id.textViewNameevents);
             this.no_plates = (TextView) v.findViewById(R.id.textViewNameEventDesc);
             this.fontAwesome = (TextView) v.findViewById(R.id.textViewArrow);
+            this.circle = (TextView) v.findViewById(R.id.textViewCircle);
 
             this.fontAwesome.setTypeface(font);
+            this.circle.setTypeface(font);
 
         }
     }

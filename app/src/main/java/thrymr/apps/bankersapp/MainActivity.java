@@ -14,6 +14,7 @@ import com.parse.ParseObject;
 
 import thrymr.apps.materialtests.models.DailyChallenge;
 import thrymr.apps.materialtests.models.SpeedMathsChallenge;
+import thrymr.apps.materialtests.models.Updates;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerCallbacks, SuperInterface {
@@ -34,6 +35,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         ParseObject.registerSubclass(DailyChallenge.class);
         ParseObject.registerSubclass(SpeedMathsChallenge.class);
+        ParseObject.registerSubclass(Updates.class);
+
         Parse.initialize(this, "5QPOyyZjjWf0xyWXpBfwf6bNljAYzu9wmGsti1DN", "lkaXuewH6QYMXcqovcmw9Dr3BJ5ghMpJ7MnFCK1x");
 
 
@@ -77,7 +80,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
             case 3:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.container, new Updates(),
+                        .replace(R.id.container, new UpdatesFragment(),
                                 "NavBackStack0").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
                 break;
             case 4:
