@@ -1,4 +1,4 @@
-package thrymr.apps.bankersapp;
+package thrymr.apps.models;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import thrymr.apps.models.DailyChallenge;
+import thrymr.apps.bankersapp.R;
 
 /**
  * Created by thrymr on 23/9/15.
@@ -24,7 +24,7 @@ public class LeaderBoardAdapter extends ArrayAdapter<LeaderBoardAdapter> {
 
     public LeaderBoardAdapter(final Context searchActivity,
                               final List<DailyChallenge> listData) {
-        super(searchActivity, R.layout.list_item_leaderboard);
+        super(searchActivity, R.layout.list_item);
 
         this.context = searchActivity;
         this.foodDetails = listData;
@@ -53,50 +53,33 @@ public class LeaderBoardAdapter extends ArrayAdapter<LeaderBoardAdapter> {
 
             final LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.list_item_leaderboard, null);
+            row = inflater.inflate(R.layout.list_item, null);
             holder = new ViewHolder(row);
             row.setTag(holder);
         } else
             holder = (ViewHolder) row.getTag();
-        String userName = this.foodDetails.get(position).getUserName();
-
-        Character firstLetter = Character.toUpperCase(userName.charAt(0));
-        if (firstLetter != null) {
-            holder.circle.setText(firstLetter.toString());
-        } else {
-            holder.circle.setText("NA");
-        }
-
-
-        holder.meals.setText(userName);
+        holder.meals.setText(this.foodDetails.get(position).getUserName());
 
 
         holder.no_plates.setText(this.foodDetails.get(position)
                 .getUserScoredPoints().toString());
 
-        SimpleDateFormat format = new SimpleDateFormat("MMM dd yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         String datas = format.format(this.foodDetails.get(position)
                 .getDate());
         holder.date.setText(datas);
-        if (position % 3 == 0) {
-            holder.circle.setBackgroundResource(R.drawable.circle_green);
-        } else if (position % 3 == 1) {
-            holder.circle.setBackgroundResource(R.drawable.circle_red);
-        } else if (position % 3 == 2) {
-            holder.circle.setBackgroundResource(R.drawable.circle_blue);
-        }
+
 
         return row;
     }
 
     public class ViewHolder {
-        public TextView meals, no_plates, date, circle;
+        public TextView meals, no_plates, date;
 
         public ViewHolder(final View v) {
-            this.meals = (TextView) v.findViewById(R.id.textViewNameevents);
-            this.no_plates = (TextView) v.findViewById(R.id.textViewLeaderBoardPonts);
-            this.date = (TextView) v.findViewById(R.id.textViewNameEventDesc);
-            this.circle = (TextView) v.findViewById(R.id.textViewCircle);
+            this.meals = (TextView) v.findViewById(R.id.mealsDetails);
+            this.no_plates = (TextView) v.findViewById(R.id.no_of_plates);
+            this.date = (TextView) v.findViewById(R.id.datess);
 
         }
     }

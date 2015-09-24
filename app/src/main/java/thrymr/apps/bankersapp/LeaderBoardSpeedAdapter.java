@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import thrymr.apps.materialtests.models.SpeedMathsChallenge;
+import thrymr.apps.models.SpeedMathsChallenge;
 
 /**
  * Created by thrymr on 23/9/15.
@@ -63,7 +63,7 @@ public class LeaderBoardSpeedAdapter extends ArrayAdapter<LeaderBoardSpeedAdapte
         Log.d("username is-->",""+foodDetails.get(position));
         String userName = this.foodDetails.get(position).getSpeedUserName();
 
-        Character firstLetter = userName.charAt(0);
+        Character firstLetter = Character.toUpperCase(userName.charAt(0));
         if (firstLetter != null) {
             holder.circle.setText(firstLetter.toString());
         } else {

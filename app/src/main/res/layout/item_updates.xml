@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="20"
-        android:gravity="center"
+        android:gravity="center|center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -17,10 +17,10 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="4dp"
-            android:background="@drawable/mr_ic_settings_light"
-            android:gravity="center"
+            android:background="@drawable/circle_blue"
+            android:gravity="center|center_vertical"
             android:padding="4dp"
-            android:text="S"
+            android:text="@string/events"
             android:textColor="#fff" />
     </LinearLayout>
 
