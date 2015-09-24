@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,61 +21,59 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by thrymr on 23/9/15.
  */
-public class Quiz extends Fragment {
 
+public class MathChallengeFragment extends Fragment {
 
-    public static List<Question> quesList = new ArrayList<Question>();
+    List<SpeedMathsQuestion> quesList = new ArrayList<SpeedMathsQuestion>();
     View view;
     CheckBox[] userAnswers = {null, null, null, null, null, null, null, null,
             null, null, null, null};
     boolean[] attepmted = {false, false, false, false, false, false, false,
             false, false, false, false, false};
     int correct, wrong, total;
-    int score = 0;
+
+    static int score = 0;
     Integer QuizModelNumber = 0;
-    Question currentQuizModel;
-    TextView txtQuizModel, currentQuestion, totalQuestions;
+    SpeedMathsQuestion currentQuizModel;
+    TextView txtQuizModel;
     RadioGroup rgp;
     CheckBox checkBox1, checkBox2, checkBox3, checkBox4;
     String answer;
     Button butNext, butPrevious, butFinish, save, get;
     private TextView timer, totalPoints, correctPoints, wrongPoints;
-    public SuperInterface superInterface;
-    public static Integer timeInt;
+    private SuperInterface superInterface;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.daily_challenge_start, container, false);
-        ParseObject.registerSubclass(Question.class);
+        view = inflater.inflate(R.layout.speed_maths, container, false);
         timer = (TextView) view.findViewById(R.id.textViewCountDown);
-        new CountDownTimer(300000, 1000) {
+        new CountDownTimer(100000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-
                 timer.setText("" + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
                 timer.setText("done!");
-                Integer integer = 300;
+                Integer integer = 100;
                 MainActivity.bundle.putInt("totalPoints", total);
                 MainActivity.bundle.putInt("time", integer);
-                Quiz.this.superInterface.resultScreen();
+                MathChallengeFragment.this.superInterface.resultScreen();
+
             }
         }.start();
+
+        ParseObject.registerSubclass(SpeedMathsQuestion.class);
         totalPoints = (TextView) view.findViewById(R.id.totalPoints);
         correctPoints = (TextView) view.findViewById(R.id.correctPoints);
         wrongPoints = (TextView) view.findViewById(R.id.wrongPoints);
         txtQuizModel = (TextView) view.findViewById(R.id.textView1);
-        currentQuestion = (TextView) view.findViewById(R.id.currentQ);
-        totalQuestions = (TextView) view.findViewById(R.id.totalQs);
         checkBox1 = (CheckBox) view.findViewById(R.id.checkBox01);
         checkBox2 = (CheckBox) view.findViewById(R.id.checkBox02);
         checkBox3 = (CheckBox) view.findViewById(R.id.checkBox03);
@@ -89,15 +86,12 @@ public class Quiz extends Fragment {
 
         getData();
 
-
         return view;
     }
 
 
-    private void showQuizModel(Question currentQuizModel) {
+    private void showQuizModel(SpeedMathsQuestion currentQuizModel) {
         txtQuizModel.setText(currentQuizModel.getQuestion());
-        currentQuestion.setText(QuizModelNumber + 1 + "");
-        totalQuestions.setText(" of " + quesList.size());
         checkBox1.setText(currentQuizModel.getOptionA());
         checkBox2.setText(currentQuizModel.getOptionB());
         checkBox3.setText(currentQuizModel.getOptionC());
@@ -140,12 +134,10 @@ public class Quiz extends Fragment {
                     }
 
                 } else {
-                    Integer integer = 300 - Integer.parseInt(timer.getText().toString());
+                    Integer integer = 100 - Integer.parseInt(timer.getText().toString());
                     MainActivity.bundle.putInt("totalPoints", total);
                     MainActivity.bundle.putInt("time", integer);
-                    Log.d("Time", "ABDC" + MainActivity.bundle.getInt("time"));
-                    timeInt = integer;
-                    Quiz.this.superInterface.resultScreen();
+                    MathChallengeFragment.this.superInterface.resultScreen();
 
                 }
 
@@ -154,6 +146,15 @@ public class Quiz extends Fragment {
 
             }
             if (v == butNext) {
+                if (butNext.getText().toString().equalsIgnoreCase("Finish")) {
+                    Log.d("Fininsh Clicked", "ABCD");
+                    checkAnswer();
+                    Log.d("Fininsh Button", "ABCD");
+                    Integer integer = 300 - Integer.parseInt(timer.getText().toString());
+                    MainActivity.bundle.putInt("totalPoints", total);
+                    MainActivity.bundle.putInt("time", integer);
+                    MathChallengeFragment.this.superInterface.resultScreen();
+                }
                 butPrevious.setEnabled(true);
                 checkAnswer();
                 QuizModelNumber++;
@@ -174,35 +175,34 @@ public class Quiz extends Fragment {
                     if (QuizModelNumber == quesList.size() - 1) {
                         butNext.setText("Finish");
                     }
+                    if (butNext.getText().toString().equalsIgnoreCase("Finish")) {
+
+                    }
                     showQuizModel(currentQuizModel);
 
                 } else {
 
                     Log.d("result" + score + "--", "===");
-                    Integer integer = 300 - Integer.parseInt(timer.getText().toString());
-                    MainActivity.bundle.putInt("totalPoints", total);
-                    MainActivity.bundle.putInt("time", integer);
-                    MainActivity.counter++;
-                    Log.d("Counter", "ABCD" + MainActivity.counter);
-                    Quiz.this.superInterface.resultScreen();
-                }
 
+
+                }
 
             }
             if (v == butFinish) {
+                Log.d("Fininsh Clicked", "ABCD");
                 checkAnswer();
+                Log.d("Fininsh Button", "ABCD");
                 Integer integer = 300 - Integer.parseInt(timer.getText().toString());
-
                 MainActivity.bundle.putInt("totalPoints", total);
                 MainActivity.bundle.putInt("time", integer);
-                Quiz.this.superInterface.resultScreen();
+                MathChallengeFragment.this.superInterface.resultScreen();
             }
         }
 
     };
 
     public void getData() {
-        ParseQuery<Question> query = ParseQuery.getQuery(Question.class);
+        ParseQuery<SpeedMathsQuestion> query = ParseQuery.getQuery(SpeedMathsQuestion.class);
         try {
             Log.e("=====================", "s" + query.toString() + "777" + query.count());
             quesList = query.find();
@@ -291,7 +291,6 @@ public class Quiz extends Fragment {
 
         } else {
 
-
             Log.d("result" + score + "--", "===");
         }
     }
@@ -308,6 +307,7 @@ public class Quiz extends Fragment {
                 if (attepmted[QuizModelNumber] == false) {
                     score++;
                     correct = score * 20;
+                    total = total + correct;
                     correctPoints.setText(Integer.toString(correct));
                     attepmted[QuizModelNumber] = true;
                     Log.d("correct answer", " score" + score);
@@ -316,10 +316,8 @@ public class Quiz extends Fragment {
             } else {
                 wrong = wrong - 10;
                 wrongPoints.setText(Integer.toString(wrong));
-                totalPoints.setText(Integer.toString(total));
                 Log.d("wrong answer", "score" + score);//
             }
-
             total = correct + wrong;
             totalPoints.setText(Integer.toString(total));
             Log.d("correct" + correct + "wrong" + wrong, "total" + total);
@@ -361,5 +359,5 @@ public class Quiz extends Fragment {
         }
 
     }
-
 }
+

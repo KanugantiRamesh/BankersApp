@@ -57,32 +57,32 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.d("mGoogleApiClient", "ABCD:" + mGoogleApiClient.isConnected());
+        if (mGoogleApiClient.isConnected() == true) {
+            if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+                Log.d("onConnected", "ABCD:" + bundle);
+                Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+                if (currentPerson != null) {
+                    personName = currentPerson.getDisplayName();
+                    personEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
+                    Log.e("personName", "ABCD" + personName + personEmail);
+                    UserCredentials userCredentials = new UserCredentials();
 
-        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-            Log.d("onConnected", "ABCD:" + bundle);
-            Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-            if (currentPerson != null) {
-                personName = currentPerson.getDisplayName();
-                personEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
-                Log.e("personName", "ABCD" + personName + personEmail);
-                UserCredentials userCredentials = new UserCredentials();
-
-                userCredentials.setUserName(personName);
-                userCredentials.setEmail(personEmail);
-                try {
-                    userCredentials.save();
-                    Log.e("userCredentials", "userCredentials" + userCredentials.getUserName() + userCredentials.getEmail());
-                    Intent intent = new Intent(SplashScreen.this, StartActivity.class);
-                    startActivity(intent);
-                    finish();
-                } catch (com.parse.ParseException e) {
-                    e.printStackTrace();
+                    userCredentials.setUserName(personName);
+                    userCredentials.setEmail(personEmail);
+                    try {
+                        userCredentials.save();
+                        Log.e("userCredentials", "userCredentials" + userCredentials.getUserName() + userCredentials.getEmail());
+                        Intent intent = new Intent(SplashScreen.this, StartActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } catch (com.parse.ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
-
     }
+
 
     @Override
     public void onConnectionSuspended(int i) {

@@ -21,6 +21,7 @@ public class StartActivity extends Activity {
         setContentView(R.layout.splash_daily_challenge);
         font = Typeface.createFromAsset(this.getAssets(), "fonts/fontawesome-webfont.ttf");
         textViewStartDailyChallenge = (TextView) findViewById(R.id.textViewStartDailyChallenge);
+        textViewStartDailyChallenge.setTypeface(font);
         textViewStartDailyChallenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

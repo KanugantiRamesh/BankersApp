@@ -85,8 +85,8 @@
             android:id="@+id/get"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:text="get" />
+            android:text="get"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>

@@ -15,4 +15,16 @@
     <string name="download_icon">&#xf019;</string>
     <string name="speed_icon">&#xf135;</string>
     <string name="timer_icon">&#xf133;</string>
+
+    <string name="icon_video">&#xf03d;</string>
+    <string name="icon_bolt">&#xf0e7;</string>
+    <string name="icon_review"> &#xf0e2;</string>
+
+    <string name="icon_leftarrow">&#xf061;</string>
+    <string name="icon_thumbsup">&#xf061;</string>
+    <string name="share">&#xf1e0;</string>
+    <string name="right_arrow">&#xf054;</string>
+
+    <string name="left_icon">&#xf0d9;</string>
+    <string name="right_icon">&#xf0da;</string>
 </resources>

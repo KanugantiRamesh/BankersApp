@@ -101,7 +101,9 @@
             android:layout_weight="50"
             android:background="@null"
             android:text="DailyChallenge"
-            android:textSize="12sp" />
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            android:drawableBottom="#E65100"/>
 
         <Button
             android:id="@+id/speed"
@@ -110,6 +112,7 @@
             android:layout_weight="50"
             android:background="@null"
             android:text="Speed Maths Challenge"
+            android:textAllCaps="false"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -118,9 +121,11 @@
         android:id="@+id/listViewData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_below="@+id/linearLayout2"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:divider="#000"
+        android:dividerHeight="1dp" />
 
 
 </RelativeLayout>

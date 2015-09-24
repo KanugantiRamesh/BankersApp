@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="Watch it on Youtube"
-            android:textSize="20sp"
-            android:textColor="@color/abc_primary_text_material_light"/>
+            android:textColor="@color/abc_primary_text_material_light"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -30,27 +30,27 @@
         android:id="@+id/share_Video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_below="@+id/video_view_layout"
         android:layout_margin="8dp"
-        android:weightSum="100"
-        android:layout_below="@+id/video_view_layout">
+        android:orientation="horizontal"
+        android:weightSum="100">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Antonynms and Synonyms"
             android:layout_weight="90"
-            android:textSize="16sp"
+            android:text="Antonynms and Synonyms"
             android:textColor="@color/abc_primary_text_material_light"
+            android:textSize="16sp"
 
-           />
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="&#xf1e0;"
-            android:textSize="16sp"
             android:textColor="@color/abc_primary_text_material_light"
+            android:textSize="16sp"
 
 
             />
@@ -62,16 +62,17 @@
         android:id="@+id/publish_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Published Date"
         android:layout_below="@+id/share_Video"
-        android:textColor="@color/abc_primary_text_material_light"
         android:layout_margin="8dp"
-        android:textSize="16sp"/>
+        android:text="Published Date"
+        android:textColor="@color/abc_primary_text_material_light"
+        android:textSize="16sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/publish_date"
-        >
+        android:layout_below="@+id/publish_date">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -79,13 +80,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Welcome to the LearnJavaOnline.org Interactive Java Tutorial.Whether you are an experienced programmer or not, this website is intended for everyone who wishes to learn the Java programming language.Just click on the chapter you wish to begin from, and follow the instructions. Good luck!"
-                android:textColor="@color/abc_primary_text_material_light"
                 android:layout_margin="8dp"
-                />
+                android:text="Welcome to the LearnJavaOnline.org Interactive Java Tutorial.Whether you are an experienced programmer or not, this website is intended for everyone who wishes to learn the Java programming language.Just click on the chapter you wish to begin from, and follow the instructions. Good luck!"
+                android:textColor="@color/abc_primary_text_material_light" />
 
         </ScrollView>
-
 
 
     </LinearLayout>

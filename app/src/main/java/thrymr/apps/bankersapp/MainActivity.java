@@ -12,25 +12,28 @@ import android.widget.Toast;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
-import thrymr.apps.materialtests.LeaderBoard;
 import thrymr.apps.materialtests.models.DailyChallenge;
+import thrymr.apps.materialtests.models.SpeedMathsChallenge;
 
-import com.parse.Parse;
 
-
-public class MainActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerCallbacks, SuperInterface {
 
     private Toolbar mToolbar;
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    public static Bundle bundle;
+    public static Integer counter = 0;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_topdrawer);
+        bundle = new Bundle();
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         ParseObject.registerSubclass(DailyChallenge.class);
+        ParseObject.registerSubclass(SpeedMathsChallenge.class);
         Parse.initialize(this, "5QPOyyZjjWf0xyWXpBfwf6bNljAYzu9wmGsti1DN", "lkaXuewH6QYMXcqovcmw9Dr3BJ5ghMpJ7MnFCK1x");
 
 
@@ -49,15 +52,20 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
         Fragment newfrag = null;
         switch (position) {
             case 0:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, new thrymr.apps.bankersapp.DailyChallenge(),
-                                "NavBackStack0").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
+                if (counter == 0) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new thrymr.apps.bankersapp.Quiz(),
+                                    "NavBackStack0").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
+                } else {
+                    android.support.v4.app.Fragment appointmentsFragmnet = new Dashboard();
+                    this.startNewFragment(appointmentsFragmnet, "Dashboard");
+                }
                 break;
             case 1:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.container, new thrymr.apps.bankersapp.Quiz(),
+                        .replace(R.id.container, new thrymr.apps.bankersapp.MathChallengeFragment(),
                                 "NavBackStack0").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
                 break;
             case 2:
@@ -65,10 +73,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
                         .beginTransaction()
                         .replace(R.id.container, new LeaderBoard(),
                                 "NavBackStack0").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
-
                 break;
             case 3:
-
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, new Updates(),
+                                "NavBackStack0").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
                 break;
             case 4:
 
@@ -101,5 +111,56 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
             mNavigationDrawerFragment.closeDrawer();
         else
             super.onBackPressed();
+    }
+
+    @Override
+    public void resultScreen() {
+        android.support.v4.app.Fragment appointmentsFragmnet = new Dashboard();
+        this.startNewFragment(appointmentsFragmnet, "Dashboard");
+    }
+
+    @Override
+    public void speedMathsTest() {
+        android.support.v4.app.Fragment appointmentsFragmnet = new MathChallengeFragment();
+        this.startNewFragment(appointmentsFragmnet, "MathChallengeFragment");
+    }
+
+    @Override
+    public void expertVideo() {
+        android.support.v4.app.Fragment appointmentsFragmnet = new ExpertVideoFragment();
+        this.startNewFragment(appointmentsFragmnet, "ExpertVideoFragment");
+
+    }
+
+    @Override
+    public void challengeFriend() {
+        android.support.v4.app.Fragment appointmentsFragmnet = new ChallengeFriends();
+        this.startNewFragment(appointmentsFragmnet, "ChallengeFriends");
+
+    }
+
+    @Override
+    public void leaderBoard() {
+        android.support.v4.app.Fragment appointmentsFragmnet = new LeaderBoard();
+        this.startNewFragment(appointmentsFragmnet, "leaderBoard");
+    }
+
+    @Override
+    public void reviewQuestions() {
+        android.support.v4.app.Fragment appointmentsFragmnet = new ReviewFragment();
+        this.startNewFragment(appointmentsFragmnet, "leaderBoard");
+    }
+
+    void startNewFragment(final android.support.v4.app.Fragment frag, final String tag) {
+        final FragmentTransaction ftr = this.getSupportFragmentManager()
+                .beginTransaction();
+        if (this.getSupportFragmentManager().findFragmentById(R.id.container) != null) {
+            ftr.replace(R.id.container, frag, tag);
+
+        } else {
+            ftr.add(R.id.container, frag, tag);
+
+        }
+        ftr.commit();
     }
 }
