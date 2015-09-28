@@ -71,7 +71,7 @@
             <LinearLayout
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:layout_margin="1dp"
+                android:layout_margin="6dp"
                 android:background="#9E9E9E"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp" />
@@ -80,7 +80,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
-
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -92,7 +91,6 @@
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_marginTop="6dp"
-
                         android:src="@drawable/circle_green" />
 
                     <TextView
@@ -100,7 +98,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:text="CORRECT"
-
                         android:textColor="#fff"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -132,7 +129,7 @@
             <LinearLayout
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
+                android:layout_margin="6dp"
                 android:background="#9E9E9E"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp" />
@@ -277,7 +274,8 @@
                 android:id="@+id/checkBox01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@android:color/black"
+                android:layout_marginTop="10dp"
+                android:buttonTint="#0D47A1"
                 android:checked="false"
                 android:text="checkBox"
                 android:textColor="@android:color/black" />
@@ -286,7 +284,7 @@
                 android:id="@+id/checkBox02"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@android:color/black"
+                android:buttonTint="#0D47A1"
                 android:checked="false"
                 android:text="checkBox"
                 android:textColor="@android:color/black" />
@@ -295,7 +293,7 @@
                 android:id="@+id/checkBox03"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@android:color/black"
+                android:buttonTint="#0D47A1"
                 android:checked="false"
                 android:text="checkBox"
                 android:textColor="@android:color/black" />
@@ -304,7 +302,7 @@
                 android:id="@+id/checkBox04"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@android:color/black"
+                android:buttonTint="#0D47A1"
                 android:checked="false"
                 android:text="checkBox"
                 android:textColor="@android:color/black" />
@@ -312,9 +310,11 @@
             <Button
                 android:id="@+id/nextButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:text="Next" />
+                android:background="@drawable/button_corner"
+                android:text="Next"
+                android:textColor="#fff" />
 
             <Button
                 android:id="@+id/previousButton"

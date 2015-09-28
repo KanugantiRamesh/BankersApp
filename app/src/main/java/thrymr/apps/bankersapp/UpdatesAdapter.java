@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import thrymr.apps.materialtests.models.UpdatesPojo;
+import thrymr.apps.models.UpdatesPojo;
 
 /**
  * Created by thrymr on 23/9/15.

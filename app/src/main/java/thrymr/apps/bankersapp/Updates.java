@@ -10,7 +10,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import thrymr.apps.materialtests.models.UpdatesPojo;
+import thrymr.apps.models.UpdatesPojo;
 
 /**
  * Created by thrmyr on 24/9/15.

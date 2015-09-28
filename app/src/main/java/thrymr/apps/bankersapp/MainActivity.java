@@ -1,33 +1,43 @@
 package thrymr.apps.bankersapp;
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
 
-import thrymr.apps.materialtests.models.DailyChallenge;
-import thrymr.apps.materialtests.models.SpeedMathsChallenge;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
+import thrymr.apps.models.DailyChallenge;
+import thrymr.apps.models.SpeedMathsChallenge;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerCallbacks, SuperInterface {
 
     private Toolbar mToolbar;
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    public static Bundle bundle;
+    public static Bundle bundle,classtype;
     public static Integer counter = 0;
+    private HashMap<String,String> sharedPrefHashMap;
+    private SharedPref sharedPref;
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_topdrawer);
+
+        //sharedPref = new SharedPref(this.getApplicationContext());
+        sharedPrefHashMap = new HashMap<String,String>();
         bundle = new Bundle();
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
@@ -52,14 +62,32 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
         Fragment newfrag = null;
         switch (position) {
             case 0:
-                if (counter == 0) {
+                if(SharedPref.pref != null) {
+                    Date date = new Date();
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+                    sharedPrefHashMap = SharedPref.getExamDetails();
+                    String dateExam = sharedPrefHashMap.get("examDate");
+                    Log.e("","dateExam"+dateExam+sharedPrefHashMap);
+
+                    if (dateExam.equalsIgnoreCase(simpleDateFormat.format(date)) && sharedPrefHashMap.get("status").equalsIgnoreCase("true")) {
+
+                        android.support.v4.app.Fragment appointmentsFragmnet = new Dashboard();
+                        this.startNewFragment(appointmentsFragmnet, "Dashboard");
+
+                    } else {
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.container, new thrymr.apps.bankersapp.Quiz(),
+                                        "NavBackStack0").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
+                    }
+
+                }else {
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.container, new thrymr.apps.bankersapp.Quiz(),
                                     "NavBackStack0").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
-                } else {
-                    android.support.v4.app.Fragment appointmentsFragmnet = new Dashboard();
-                    this.startNewFragment(appointmentsFragmnet, "Dashboard");
+
                 }
                 break;
             case 1:

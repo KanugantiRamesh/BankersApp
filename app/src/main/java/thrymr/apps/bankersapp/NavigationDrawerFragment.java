@@ -20,7 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -40,7 +43,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     private int mCurrentSelectedPosition;
     Typeface font;
     TextView userName, userEmail;
-
+    private HashMap<String, String> sharedPrefHashMap;
+    private SuperInterface superInterface;
 
     @Nullable
     @Override
@@ -56,6 +60,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mDrawerList.setLayoutManager(layoutManager);
         mDrawerList.setHasFixedSize(true);
 
+        sharedPrefHashMap = new HashMap<String, String>();
         font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/fontawesome-webfont.ttf");
 
 
@@ -63,7 +68,25 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(navigationItems, font);
         adapter.setNavigationDrawerCallbacks(this);
         mDrawerList.setAdapter(adapter);
-        selectItem(mCurrentSelectedPosition);
+
+        if (SharedPref.pref != null) {
+            Date date = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+            sharedPrefHashMap = SharedPref.getExamDetails();
+            String dateExam = sharedPrefHashMap.get("examDate");
+            Log.e("", "dateExam" + dateExam + sharedPrefHashMap.toString());
+
+            if (dateExam.equalsIgnoreCase(simpleDateFormat.format(date)) && sharedPrefHashMap.get("status").equalsIgnoreCase("true")) {
+                superInterface.resultScreen();
+            } else {
+                selectItem(mCurrentSelectedPosition);
+            }
+        } else {
+            selectItem(mCurrentSelectedPosition);
+        }
+
+
         return view;
     }
 
@@ -82,6 +105,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         super.onAttach(activity);
         try {
             mCallbacks = (NavigationDrawerCallbacks) activity;
+            superInterface = (SuperInterface) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
         }
@@ -185,6 +209,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     }
 
     void selectItem(int position) {
+
+
         mCurrentSelectedPosition = position;
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
@@ -237,4 +263,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         SharedPreferences sharedPref = ctx.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
         return sharedPref.getString(settingName, defaultValue);
     }
+
+
 }

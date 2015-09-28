@@ -1,7 +1,9 @@
 package thrymr.apps.bankersapp;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -22,6 +24,9 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by thrymr on 23/9/15.
@@ -47,13 +52,14 @@ public class MathChallengeFragment extends Fragment {
     Button butNext, butPrevious, butFinish, save, get;
     private TextView timer, totalPoints, correctPoints, wrongPoints;
     private SuperInterface superInterface;
+    private   CounterClass counterTimer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.speed_maths, container, false);
         timer = (TextView) view.findViewById(R.id.textViewCountDown);
-        new CountDownTimer(100000, 1000) {
+        /*new CountDownTimer(100000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timer.setText("" + millisUntilFinished / 1000);
@@ -67,7 +73,13 @@ public class MathChallengeFragment extends Fragment {
                 MathChallengeFragment.this.superInterface.resultScreen();
 
             }
-        }.start();
+        }.start();*/
+
+
+         counterTimer = new CounterClass(60000, 1000);
+        timer.setText("01:00");
+
+
 
         ParseObject.registerSubclass(SpeedMathsQuestion.class);
         totalPoints = (TextView) view.findViewById(R.id.totalPoints);
@@ -85,6 +97,7 @@ public class MathChallengeFragment extends Fragment {
         get = (Button) view.findViewById(R.id.get);
 
         getData();
+        counterTimer.start();
 
         return view;
     }
@@ -134,9 +147,9 @@ public class MathChallengeFragment extends Fragment {
                     }
 
                 } else {
-                    Integer integer = 100 - Integer.parseInt(timer.getText().toString());
+
                     MainActivity.bundle.putInt("totalPoints", total);
-                    MainActivity.bundle.putInt("time", integer);
+                    MainActivity.bundle.putInt("time", 60);
                     MathChallengeFragment.this.superInterface.resultScreen();
 
                 }
@@ -146,15 +159,7 @@ public class MathChallengeFragment extends Fragment {
 
             }
             if (v == butNext) {
-                if (butNext.getText().toString().equalsIgnoreCase("Finish")) {
-                    Log.d("Fininsh Clicked", "ABCD");
-                    checkAnswer();
-                    Log.d("Fininsh Button", "ABCD");
-                    Integer integer = 300 - Integer.parseInt(timer.getText().toString());
-                    MainActivity.bundle.putInt("totalPoints", total);
-                    MainActivity.bundle.putInt("time", integer);
-                    MathChallengeFragment.this.superInterface.resultScreen();
-                }
+
                 butPrevious.setEnabled(true);
                 checkAnswer();
                 QuizModelNumber++;
@@ -182,20 +187,53 @@ public class MathChallengeFragment extends Fragment {
 
                 } else {
 
+
+                    checkAnswer();
+                    counterTimer.cancel();
+                    String hms =null;
                     Log.d("result" + score + "--", "===");
+
+                    String timeLeft = timer.getText().toString();
+
+                    Pattern p = Pattern.compile("(\\d+):(\\d+)");
+                    Matcher m = p.matcher(timeLeft);
+                    if (m.matches()) {
+                        int minutes = Integer.parseInt(m.group(1));
+                        int seconds = Integer.parseInt(m.group(2));
+                        long timeRemain = (long) minutes * 60 * 1000 + seconds * 1000;
+                        Log.e("","remainig time"+timeRemain);
+
+                        long ms = 60000 - timeRemain;
+                        System.out.println("hrs=" + minutes + " min=" + seconds + " ms=" + ms);
+
+
+                        hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(ms) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(ms)), TimeUnit.MILLISECONDS.toSeconds(ms) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(ms)));
+
+
+                    } else {
+                        // throw Exception("Bad time format");
+                    }
+
+
+
+
+
+                    MainActivity.bundle.putInt("totalPoints", total);
+                    MainActivity.bundle.putString("time", hms);
+                    MathChallengeFragment.this.superInterface.resultScreen();
+
+
+
+
+
+
 
 
                 }
 
             }
             if (v == butFinish) {
-                Log.d("Fininsh Clicked", "ABCD");
-                checkAnswer();
-                Log.d("Fininsh Button", "ABCD");
-                Integer integer = 300 - Integer.parseInt(timer.getText().toString());
-                MainActivity.bundle.putInt("totalPoints", total);
-                MainActivity.bundle.putInt("time", integer);
-                MathChallengeFragment.this.superInterface.resultScreen();
+
             }
         }
 
@@ -359,5 +397,41 @@ public class MathChallengeFragment extends Fragment {
         }
 
     }
+
+
+    public class CounterClass extends CountDownTimer {
+        public CounterClass(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {
+
+
+            String hms = "";
+            timer.setText("done!");
+
+
+            long ms = 60000;
+
+
+            hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(ms) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(ms)), TimeUnit.MILLISECONDS.toSeconds(ms) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(ms)));
+            MainActivity.bundle.putInt("totalPoints", total);
+            MainActivity.bundle.putString("time", hms);
+            MathChallengeFragment.this.superInterface.resultScreen();
+        }
+
+        @SuppressLint("NewApi")
+        @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+        @Override
+        public void onTick(long millisUntilFinished) {
+            long millis = millisUntilFinished;
+            String hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+            System.out.println(hms);
+            timer.setText(hms);
+        }
+    }
 }
+
+
 

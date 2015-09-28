@@ -1,12 +1,13 @@
 package thrymr.apps.bankersapp;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +22,14 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by thrymr on 23/9/15.
@@ -49,6 +55,10 @@ public class Quiz extends Fragment {
     private TextView timer, totalPoints, correctPoints, wrongPoints;
     public SuperInterface superInterface;
     public static Integer timeInt;
+    private CounterClass counterTimer;
+   private  Date today;
+    private SharedPref sharedPref;
+    private String stringDate;
 
     @Nullable
     @Override
@@ -56,7 +66,14 @@ public class Quiz extends Fragment {
         view = inflater.inflate(R.layout.daily_challenge_start, container, false);
         ParseObject.registerSubclass(Question.class);
         timer = (TextView) view.findViewById(R.id.textViewCountDown);
-        new CountDownTimer(300000, 1000) {
+
+
+
+        today = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+       stringDate = simpleDateFormat.format(today);
+        Log.e("","date"+stringDate);
+       /* new CountDownTimer(300000, 1000) {
 
             public void onTick(long millisUntilFinished) {
 
@@ -70,7 +87,13 @@ public class Quiz extends Fragment {
                 MainActivity.bundle.putInt("time", integer);
                 Quiz.this.superInterface.resultScreen();
             }
-        }.start();
+        }.start();*/
+
+        counterTimer = new CounterClass(60000, 1000);
+        timer.setText("01:00");
+
+
+
         totalPoints = (TextView) view.findViewById(R.id.totalPoints);
         correctPoints = (TextView) view.findViewById(R.id.correctPoints);
         wrongPoints = (TextView) view.findViewById(R.id.wrongPoints);
@@ -88,7 +111,7 @@ public class Quiz extends Fragment {
         get = (Button) view.findViewById(R.id.get);
 
         getData();
-
+        counterTimer.start();
 
         return view;
     }
@@ -140,13 +163,30 @@ public class Quiz extends Fragment {
                     }
 
                 } else {
-                    Integer integer = 300 - Integer.parseInt(timer.getText().toString());
-                    MainActivity.bundle.putInt("totalPoints", total);
-                    MainActivity.bundle.putInt("time", integer);
-                    Log.d("Time", "ABDC" + MainActivity.bundle.getInt("time"));
-                    timeInt = integer;
-                    Quiz.this.superInterface.resultScreen();
+                    String hms = null;
+                    String timeLeft = timer.getText().toString();
 
+                    Pattern p = Pattern.compile("(\\d+):(\\d+)");
+                    Matcher m = p.matcher(timeLeft);
+                    if (m.matches()) {
+                        int minutes = Integer.parseInt(m.group(1));
+                        int seconds = Integer.parseInt(m.group(2));
+                        long timeRemain = (long) minutes * 60 * 1000 + seconds * 1000;
+
+                        long ms = 60000 - timeRemain;
+                        System.out.println("hrs=" + minutes + " min=" + seconds + " ms=" + ms);
+
+
+                        hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(ms) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(ms)), TimeUnit.MILLISECONDS.toSeconds(ms) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(ms)));
+
+
+                    } else {
+                        // throw Exception("Bad time format");
+                    }
+
+                    MainActivity.bundle.putInt("totalPoints", total);
+                    MainActivity.bundle.putString("time", hms);
+                    Quiz.this.superInterface.resultScreen();
                 }
 
 
@@ -177,25 +217,52 @@ public class Quiz extends Fragment {
                     showQuizModel(currentQuizModel);
 
                 } else {
+                    sharedPref = new SharedPref(getActivity());
 
+                    checkAnswer();
+                    counterTimer.cancel();
+                    String hms = null;
                     Log.d("result" + score + "--", "===");
-                    Integer integer = 300 - Integer.parseInt(timer.getText().toString());
-                    MainActivity.bundle.putInt("totalPoints", total);
-                    MainActivity.bundle.putInt("time", integer);
+
+                    String timeLeft = timer.getText().toString();
+
+                    Pattern p = Pattern.compile("(\\d+):(\\d+)");
+                    Matcher m = p.matcher(timeLeft);
+                    if (m.matches()) {
+                        int minutes = Integer.parseInt(m.group(1));
+                        int seconds = Integer.parseInt(m.group(2));
+                        long timeRemain = (long) minutes * 60 * 1000 + seconds * 1000;
+                        Log.e("", "remainig time" + timeRemain);
+
+                        long ms = 60000 - timeRemain;
+                        System.out.println("hrs=" + minutes + " min=" + seconds + " ms=" + ms);
+
+
+                        hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(ms) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(ms)), TimeUnit.MILLISECONDS.toSeconds(ms) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(ms)));
+
+
+                    } else {
+                        // throw Exception("Bad time format");
+                    }
+
+
+                   /* MainActivity.bundle.putInt("totalPoints", total);
+                    MainActivity.bundle.putString("time", hms);*/
                     MainActivity.counter++;
-                    Log.d("Counter", "ABCD" + MainActivity.counter);
+                    Log.d("Counter", "ABCD" + MainActivity.counter + "date" + stringDate + "score" + total + "time" + hms);
+
+                    SharedPref.setExamDetails(total + "", hms, "true", stringDate);
+                    HashMap<String,String> hash = SharedPref.getExamDetails();
+
+                    Log.e("", "hashmap" + hash);
                     Quiz.this.superInterface.resultScreen();
+
                 }
 
 
             }
             if (v == butFinish) {
-                checkAnswer();
-                Integer integer = 300 - Integer.parseInt(timer.getText().toString());
 
-                MainActivity.bundle.putInt("totalPoints", total);
-                MainActivity.bundle.putInt("time", integer);
-                Quiz.this.superInterface.resultScreen();
             }
         }
 
@@ -304,8 +371,10 @@ public class Quiz extends Fragment {
             Log.d("Correct answer", "" + currentQuizModel.getAnswer());
             Log.d("Correct answer", "" + currentQuizModel.toString());
             Log.d("your answer", "" + getAnswer().getText().toString());
+
+
             if (currentQuizModel.getAnswer().equals(getAnswer().getText().toString())) {
-                if (attepmted[QuizModelNumber] == false) {
+                if (QuizModelNumber != attepmted.length && attepmted[QuizModelNumber] == false) {
                     score++;
                     correct = score * 20;
                     correctPoints.setText(Integer.toString(correct));
@@ -319,6 +388,7 @@ public class Quiz extends Fragment {
                 totalPoints.setText(Integer.toString(total));
                 Log.d("wrong answer", "score" + score);//
             }
+
 
             total = correct + wrong;
             totalPoints.setText(Integer.toString(total));
@@ -360,6 +430,48 @@ public class Quiz extends Fragment {
                     "Activity must implement OnDietDiaryRequestedListener.");
         }
 
+    }
+
+    public class CounterClass extends CountDownTimer {
+        public CounterClass(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {
+            sharedPref = new SharedPref(getActivity());
+            String hms = "";
+            timer.setText("done!");
+
+
+            long ms = 60000;
+
+
+            hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(ms) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(ms)), TimeUnit.MILLISECONDS.toSeconds(ms) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(ms)));
+
+
+
+
+
+            SharedPref.setExamDetails(total + "", hms, "true", stringDate);
+            HashMap<String,String> hash = SharedPref.getExamDetails();
+            Log.e("","hashmap"+hash);
+               /* MainActivity.bundle.putInt("totalPoints", total);
+            MainActivity.bundle.putString("time", hms);*/
+
+            Quiz.this.superInterface.resultScreen();
+
+        }
+
+        @SuppressLint("NewApi")
+        @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+        @Override
+        public void onTick(long millisUntilFinished) {
+            long millis = millisUntilFinished;
+            String hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+            System.out.println(hms);
+            timer.setText(hms);
+        }
     }
 
 }

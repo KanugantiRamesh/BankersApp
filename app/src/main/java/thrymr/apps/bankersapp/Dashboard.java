@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 @SuppressWarnings("ResourceType")
 public class Dashboard extends Fragment {
 
@@ -22,11 +24,13 @@ public class Dashboard extends Fragment {
     LinearLayout mathTest;
     private SuperInterface superInterface;
     Typeface font;
-
+    private HashMap<String,String> sharedPrefHashMap;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dashboard, container, false);
+        sharedPrefHashMap = new HashMap<String,String>();
+        sharedPrefHashMap = SharedPref.getExamDetails();
         font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/fontawesome-webfont.ttf");
         totalScore = MainActivity.bundle.getInt("totalPoints");
         time = MainActivity.bundle.getInt("time");
@@ -93,7 +97,7 @@ public class Dashboard extends Fragment {
         bonus_point = (TextView) rootView.findViewById(R.id.bonus_point);
         best_score = (TextView) rootView.findViewById(R.id.best_score);
         best_score.setTypeface(font);
-        time_of_exam.setText(time.toString() + "sec");
+        time_of_exam.setText(time.toString() );
         score.setText(totalScore.toString());
         score.setTypeface(font);
         return rootView;

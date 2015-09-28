@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import thrymr.apps.materialtests.models.SpeedMathsChallenge;
+import thrymr.apps.models.SpeedMathsChallenge;
 
 /**
  * Created by thrymr on 23/9/15.

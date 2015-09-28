@@ -19,8 +19,8 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-import thrymr.apps.materialtests.models.DailyChallenge;
-import thrymr.apps.materialtests.models.SpeedMathsChallenge;
+import thrymr.apps.models.DailyChallenge;
+import thrymr.apps.models.SpeedMathsChallenge;
 
 
 public class LeaderBoard extends Fragment {
