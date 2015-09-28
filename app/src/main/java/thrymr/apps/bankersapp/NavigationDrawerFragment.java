@@ -181,7 +181,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         items.add(new NavigationItem("Daily Challenge", getResources().getString(R.string.rules_qustion)));
         items.add(new NavigationItem("Speed Maths Challenge", getResources().getString(R.string.dash_board)));
         items.add(new NavigationItem("Leaderboard", getResources().getString(R.string.bell)));
-        items.add(new NavigationItem("Important Updates", getResources().getString(R.string.rules_qustion)));
+        items.add(new NavigationItem("Important UpdatesPojo", getResources().getString(R.string.rules_qustion)));
         items.add(new NavigationItem("Premium Training", getResources().getString(R.string.dash_board)));
         items.add(new NavigationItem("1800-100-200", getResources().getString(R.string.bell)));
         items.add(new NavigationItem("Rules of Challenge", getResources().getString(R.string.rules_qustion)));

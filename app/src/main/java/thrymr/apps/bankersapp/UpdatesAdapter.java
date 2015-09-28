@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import thrymr.apps.materialtests.models.Updates;
+import thrymr.apps.models.Updates;
 
 /**
- * Created by thrymr on 23/9/15.
+ * Created by thrmyr on 28/9/15.
  */
 public class UpdatesAdapter extends ArrayAdapter<UpdatesAdapter> {
     private final List<Updates> foodDetails;

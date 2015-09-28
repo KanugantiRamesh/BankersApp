@@ -10,9 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -31,7 +28,7 @@ public class ReviewFragment extends Fragment {
     private String correctAnswer;
     private TextView imageString, imageString1, imageString2, imageString3;
     Typeface font;
-    SharedPref sharedPref;
+
     LinkedHashMap<String, Set<String>> stringHashMap;
     Set<String> stringQuestionSet;
     Set<String> stringOptionSet;
@@ -41,17 +38,11 @@ public class ReviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.review_layout, container, false);
 
-        sharedPref = new SharedPref(getActivity());
         stringHashMap = new LinkedHashMap<String, Set<String>>();
 
         stringQuestionSet = new LinkedHashSet<String>();
         stringOptionSet = new LinkedHashSet<String>();
-        stringHashMap = sharedPref.getOptionSelected();
 
-        stringQuestionSet = stringHashMap.get(SharedPref.QUESTION);
-        Log.d("stringQuestionSet", "ABCD" + stringQuestionSet);
-        stringOptionSet = stringHashMap.get(SharedPref.OPTION);
-        Log.d("stringOptionSet", "ABCD" + stringOptionSet);
 
 
         font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/fontawesome-webfont.ttf");

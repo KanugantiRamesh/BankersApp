@@ -19,15 +19,16 @@ import java.util.HashMap;
 
 import thrymr.apps.models.DailyChallenge;
 import thrymr.apps.models.SpeedMathsChallenge;
+import thrymr.apps.models.Updates;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerCallbacks, SuperInterface {
 
     private Toolbar mToolbar;
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    public static Bundle bundle,classtype;
+    public static Bundle bundle, classtype;
     public static Integer counter = 0;
-    private HashMap<String,String> sharedPrefHashMap;
+    private HashMap<String, String> sharedPrefHashMap;
     private SharedPref sharedPref;
 
     @Override
@@ -37,7 +38,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
         setContentView(R.layout.activity_main_topdrawer);
 
         //sharedPref = new SharedPref(this.getApplicationContext());
-        sharedPrefHashMap = new HashMap<String,String>();
+        sharedPrefHashMap = new HashMap<String, String>();
         bundle = new Bundle();
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
@@ -63,13 +64,13 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
         Fragment newfrag = null;
         switch (position) {
             case 0:
-                if(SharedPref.pref != null) {
+                if (SharedPref.pref != null) {
                     Date date = new Date();
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
                     sharedPrefHashMap = SharedPref.getExamDetails();
                     String dateExam = sharedPrefHashMap.get("examDate");
-                    Log.e("","dateExam"+dateExam+sharedPrefHashMap);
+                    Log.e("", "dateExam" + dateExam + sharedPrefHashMap);
 
                     if (dateExam.equalsIgnoreCase(simpleDateFormat.format(date)) && sharedPrefHashMap.get("status").equalsIgnoreCase("true")) {
 
@@ -83,7 +84,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
                                         "NavBackStack0").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
                     }
 
-                }else {
+                } else {
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.container, new thrymr.apps.bankersapp.Quiz(),
@@ -106,7 +107,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
             case 3:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.container, new Updates(),
+                        .replace(R.id.container, new UpdatesFragment(),
                                 "NavBackStack0").setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
                 break;
             case 4:

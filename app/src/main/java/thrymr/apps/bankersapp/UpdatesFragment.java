@@ -19,10 +19,10 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-import thrymr.apps.materialtests.models.Updates;
+import thrymr.apps.models.Updates;
 
 /**
- * Created by thrmyr on 24/9/15.
+ * Created by thrmyr on 28/9/15.
  */
 public class UpdatesFragment extends Fragment {
 
@@ -78,14 +78,14 @@ public class UpdatesFragment extends Fragment {
 
 
 
-listViews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        listViews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        goToUrl ("http://"+updatesList.get(position).getUrl());
+                goToUrl ("http://"+updatesList.get(position).getUrl());
 
-    }
-});
+            }
+        });
 
 
         return view;
