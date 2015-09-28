@@ -1,10 +1,10 @@
 package thrymr.apps.bankersapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +70,6 @@ public class LeaderBoard extends Fragment {
                     c.setSpeedUserScoredPoints(challenge.getSpeedUserScoredPoints());
                     c.setSpeedDate(challenge.getSpeedDate());
                     listVlauesSpeedChallenge.add(c);
-                    Log.d("listVaues are ----->", "" + listVlauesSpeedChallenge);
 
 
                 }
@@ -86,9 +85,12 @@ public class LeaderBoard extends Fragment {
         daily.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 listview.setAdapter(null);
                 LeaderBoardAdapter adapter = new LeaderBoardAdapter(getActivity(), listValues);
                 listview.setAdapter(adapter);
+                speed.setBackgroundColor(Color.rgb(42, 63, 78));
+                daily.setBackgroundResource(R.drawable.btn_yellow);
             }
         });
         speed.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +99,8 @@ public class LeaderBoard extends Fragment {
                 listview.setAdapter(null);
                 LeaderBoardSpeedAdapter adapter = new LeaderBoardSpeedAdapter(getActivity(), listVlauesSpeedChallenge);
                 listview.setAdapter(adapter);
+                speed.setBackgroundResource(R.drawable.btn_yellow);
+                daily.setBackgroundColor(Color.rgb(42, 63, 78));
             }
         });
 

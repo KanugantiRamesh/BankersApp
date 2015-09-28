@@ -27,4 +27,10 @@
 
     <string name="left_icon">&#xf0d9;</string>
     <string name="right_icon">&#xf0da;</string>
+
+
+    <string name="events">&#xf073;</string>
+    <string name="offer">&#xf218;</string>
+    <string name="updates">&#xf021;</string>
+
 </resources>

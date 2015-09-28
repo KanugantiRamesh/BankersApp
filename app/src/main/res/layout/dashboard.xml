@@ -60,20 +60,18 @@
 
                 android:orientation="vertical"
                 android:padding="30dp">
-
                 <LinearLayout
                     android:layout_width="150dip"
                     android:layout_height="150dip"
-                    android:background="@drawable/circle"
-                    android:orientation="vertical">
-
+                    android:orientation="vertical"
+                    android:background="@drawable/dashboard_circle">
                     <TextView
                         android:id="@+id/score_daily_challenge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="25dp"
                         android:text="179"
+                        android:layout_marginTop="25dp"
                         android:textColor="@color/abc_primary_text_disable_only_material_light"
                         android:textSize="@dimen/large_text" />
 
@@ -213,30 +211,14 @@
                         android:textColor="@color/background_floating_material_dark"
                         android:textSize="@dimen/small_text" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/best_score"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:text=" &#xf14a;  179"
+                        android:textColor="@color/background_floating_material_dark"
 
-                        <TextView
-                            android:id="@+id/best_scoreFont"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="&#xf14a;"
-                            android:textColor="@color/background_floating_material_dark"
-                            android:textSize="@dimen/large_text" />
-
-                        <TextView
-                            android:id="@+id/result"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="179"
-                            android:textColor="@color/background_floating_material_dark"
-                            android:textSize="@dimen/large_text" />
-
-
-                    </LinearLayout>
+                        android:textSize="@dimen/large_text" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -322,7 +304,8 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center"
                         android:text="@string/icon_bolt"
-                        android:textSize="@dimen/large_text" />
+                        android:textSize="@dimen/large_text"
+                        />
                 </LinearLayout>
 
 
