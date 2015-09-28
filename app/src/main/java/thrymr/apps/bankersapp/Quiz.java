@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,14 +22,13 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
  * Created by thrymr on 23/9/15.
  */
 public class Quiz extends Fragment {
-
-
     public static List<Question> quesList = new ArrayList<Question>();
     View view;
     CheckBox[] userAnswers = {null, null, null, null, null, null, null, null,
@@ -48,18 +46,22 @@ public class Quiz extends Fragment {
     Button butNext, butPrevious, butFinish, save, get;
     private TextView timer, totalPoints, correctPoints, wrongPoints;
     public SuperInterface superInterface;
-    public static Integer timeInt;
+    SharedPref sharedPref;
+    private List<LinkedHashMap<String, String>> hashMapList;
+    LinkedHashMap<String, String> stringHashMap;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.daily_challenge_start, container, false);
+        sharedPref = new SharedPref(getActivity());
+        hashMapList = new ArrayList<LinkedHashMap<String, String>>();
+        stringHashMap = new LinkedHashMap<String, String>();
+
         ParseObject.registerSubclass(Question.class);
         timer = (TextView) view.findViewById(R.id.textViewCountDown);
         new CountDownTimer(300000, 1000) {
-
             public void onTick(long millisUntilFinished) {
-
                 timer.setText("" + millisUntilFinished / 1000);
             }
 
@@ -86,13 +88,9 @@ public class Quiz extends Fragment {
         butFinish = (Button) view.findViewById(R.id.Finish);
         save = (Button) view.findViewById(R.id.save);
         get = (Button) view.findViewById(R.id.get);
-
         getData();
-
-
         return view;
     }
-
 
     private void showQuizModel(Question currentQuizModel) {
         txtQuizModel.setText(currentQuizModel.getQuestion());
@@ -102,17 +100,12 @@ public class Quiz extends Fragment {
         checkBox2.setText(currentQuizModel.getOptionB());
         checkBox3.setText(currentQuizModel.getOptionC());
         checkBox4.setText(currentQuizModel.getOptionD());
-
     }
 
-
     private View.OnClickListener listner = new View.OnClickListener() {
-
-
         @SuppressLint("ShowToast")
         @Override
         public void onClick(View v) {
-
             if (v == butPrevious) {
                 butNext.setText("Next");
                 checkAnswer();
@@ -120,7 +113,6 @@ public class Quiz extends Fragment {
                     butPrevious.setEnabled(false);
                 }
                 QuizModelNumber--;
-
                 if (userAnswers[QuizModelNumber] == null) {
                     checkBox1.setChecked(false);
                     checkBox2.setChecked(false);
@@ -131,31 +123,23 @@ public class Quiz extends Fragment {
                 }
                 if (QuizModelNumber < 10) {
                     currentQuizModel = quesList.get(QuizModelNumber);
-
                     showQuizModel(currentQuizModel);
-
                     if (userAnswers[QuizModelNumber] != null) {
                         Log.d("QuizModel number", "" + QuizModelNumber);
                         userAnswers[QuizModelNumber].setChecked(true);
                     }
-
                 } else {
                     Integer integer = 300 - Integer.parseInt(timer.getText().toString());
                     MainActivity.bundle.putInt("totalPoints", total);
                     MainActivity.bundle.putInt("time", integer);
-                    Log.d("Time", "ABDC" + MainActivity.bundle.getInt("time"));
-                    timeInt = integer;
                     Quiz.this.superInterface.resultScreen();
-
                 }
-
-
                 showQuizModel(currentQuizModel);
-
             }
             if (v == butNext) {
                 butPrevious.setEnabled(true);
                 checkAnswer();
+                hashMapList.add(stringHashMap);
                 QuizModelNumber++;
                 Log.e("QuizModelNumber" + QuizModelNumber + "", "size of" + quesList.size());
                 if (QuizModelNumber < quesList.size()) {
@@ -167,38 +151,22 @@ public class Quiz extends Fragment {
                     } else {
                         userAnswers[QuizModelNumber].setChecked(true);
                     }
-
-
                     currentQuizModel = quesList.get(QuizModelNumber);
-
                     if (QuizModelNumber == quesList.size() - 1) {
                         butNext.setText("Finish");
                     }
                     showQuizModel(currentQuizModel);
-
                 } else {
-
                     Log.d("result" + score + "--", "===");
                     Integer integer = 300 - Integer.parseInt(timer.getText().toString());
                     MainActivity.bundle.putInt("totalPoints", total);
                     MainActivity.bundle.putInt("time", integer);
-                    MainActivity.counter++;
-                    Log.d("Counter", "ABCD" + MainActivity.counter);
+                    Log.d("hashMapList", "ABCD" + hashMapList);
+                    sharedPref.questionWithOption(hashMapList);
                     Quiz.this.superInterface.resultScreen();
                 }
-
-
-            }
-            if (v == butFinish) {
-                checkAnswer();
-                Integer integer = 300 - Integer.parseInt(timer.getText().toString());
-
-                MainActivity.bundle.putInt("totalPoints", total);
-                MainActivity.bundle.putInt("time", integer);
-                Quiz.this.superInterface.resultScreen();
             }
         }
-
     };
 
     public void getData() {
@@ -207,18 +175,14 @@ public class Quiz extends Fragment {
             Log.e("=====================", "s" + query.toString() + "777" + query.count());
             quesList = query.find();
             Log.e("size" + quesList.size(), "");
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
         currentQuizModel = quesList.get(QuizModelNumber);
         showQuizModel(currentQuizModel);
         butNext.setOnClickListener(listner);
         butPrevious.setOnClickListener(listner);
         butFinish.setOnClickListener(listner);
-
         butPrevious.setEnabled(false);
         checkBox1.setOnCheckedChangeListener(listenerCheck);
         checkBox2.setOnCheckedChangeListener(listenerCheck);
@@ -226,9 +190,7 @@ public class Quiz extends Fragment {
         checkBox4.setOnCheckedChangeListener(listenerCheck);
     }
 
-
     private CompoundButton.OnCheckedChangeListener listenerCheck = new CompoundButton.OnCheckedChangeListener() {
-
         public void onCheckedChanged(CompoundButton arg0, boolean isChecked) {
             if (isChecked) {
                 switch (arg0.getId()) {
@@ -238,6 +200,10 @@ public class Quiz extends Fragment {
                         checkBox2.setChecked(false);
                         checkBox3.setChecked(false);
                         checkBox4.setChecked(false);
+                        /*Log.d("OnCheckedChangeListener", "checkBox01:" + QuizModelNumber + "" + checkBox1.getText().toString());
+                        sharedPref.questionWithOption(QuizModelNumber + "", checkBox1.getText().toString());*/
+                        stringHashMap.put(QuizModelNumber + "", checkBox1.getText().toString());
+
                         break;
                     case R.id.checkBox02:
                         userAnswers[QuizModelNumber] = checkBox2;
@@ -245,6 +211,9 @@ public class Quiz extends Fragment {
                         checkBox2.setChecked(true);
                         checkBox3.setChecked(false);
                         checkBox4.setChecked(false);
+                      /*  Log.d("OnCheckedChangeListener", "checkBox02" + QuizModelNumber + "" + checkBox2.getText().toString());
+                        sharedPref.questionWithOption(QuizModelNumber + "", checkBox2.getText().toString());*/
+                        stringHashMap.put(QuizModelNumber + "", checkBox2.getText().toString());
                         break;
                     case R.id.checkBox03:
                         userAnswers[QuizModelNumber] = checkBox3;
@@ -252,6 +221,9 @@ public class Quiz extends Fragment {
                         checkBox2.setChecked(false);
                         checkBox3.setChecked(true);
                         checkBox4.setChecked(false);
+                        /*Log.d("OnCheckedChangeListener", "checkBox03" + QuizModelNumber + "" + checkBox3.getText().toString());
+                        sharedPref.questionWithOption(QuizModelNumber + "", checkBox3.getText().toString());*/
+                        stringHashMap.put(QuizModelNumber + "", checkBox3.getText().toString());
                         break;
                     case R.id.checkBox04:
                         userAnswers[QuizModelNumber] = checkBox4;
@@ -259,18 +231,17 @@ public class Quiz extends Fragment {
                         checkBox2.setChecked(false);
                         checkBox3.setChecked(false);
                         checkBox4.setChecked(true);
+                        /*Log.d("OnCheckedChangeListener", "checkBox04" + QuizModelNumber + "" + checkBox4.getText().toString());
+                        sharedPref.questionWithOption(QuizModelNumber + "", checkBox4.getText().toString());*/
+                        stringHashMap.put(QuizModelNumber + "", checkBox4.getText().toString());
                         break;
-
                 }
             }
         }
     };
 
     public void showNextQuestion() {
-
-
         checkAnswer();
-
         QuizModelNumber++;
         if (userAnswers[QuizModelNumber] == null) {
             checkBox1.setChecked(false);
@@ -280,26 +251,19 @@ public class Quiz extends Fragment {
         } else {
             userAnswers[QuizModelNumber].setChecked(true);
         }
-
         if (QuizModelNumber < quesList.size()) {
             currentQuizModel = quesList.get(QuizModelNumber);
-
             if (QuizModelNumber == quesList.size() - 1) {
                 butNext.setText("Finish");
             }
             showQuizModel(currentQuizModel);
-
         } else {
-
-
             Log.d("result" + score + "--", "===");
         }
     }
 
     private void checkAnswer() {
-
         if (getAnswer() != null) {
-
             Log.d("Correct answer", "" + currentQuizModel.getQuestion());
             Log.d("Correct answer", "" + currentQuizModel.getAnswer());
             Log.d("Correct answer", "" + currentQuizModel.toString());
@@ -312,42 +276,32 @@ public class Quiz extends Fragment {
                     attepmted[QuizModelNumber] = true;
                     Log.d("correct answer", " score" + score);
                 }
-
             } else {
                 wrong = wrong - 10;
                 wrongPoints.setText(Integer.toString(wrong));
                 totalPoints.setText(Integer.toString(total));
-                Log.d("wrong answer", "score" + score);//
+                Log.d("wrong answer", "score" + score);
             }
-
             total = correct + wrong;
             totalPoints.setText(Integer.toString(total));
             Log.d("correct" + correct + "wrong" + wrong, "total" + total);
         }
-
     }
 
     private CheckBox getAnswer() {
-
         if (checkBox1.isChecked()) {
             Log.d("elseelse", "" + (CheckBox) view.findViewById(R.id.checkBox01) + "");
-
             return (CheckBox) view.findViewById(R.id.checkBox01);
         } else if (checkBox2.isChecked()) {
-
             return (CheckBox) view.findViewById(R.id.checkBox02);
         } else if (checkBox3.isChecked()) {
-
             return (CheckBox) view.findViewById(R.id.checkBox03);
         } else if (checkBox4.isChecked()) {
-
             return (CheckBox) view.findViewById(R.id.checkBox04);
         } else {
             Log.d("elseelse", "else");
             return null;
-
         }
-
     }
 
     @Override
@@ -359,7 +313,5 @@ public class Quiz extends Fragment {
             throw new ClassCastException(
                     "Activity must implement OnDietDiaryRequestedListener.");
         }
-
     }
-
 }

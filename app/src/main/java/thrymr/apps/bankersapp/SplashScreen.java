@@ -36,6 +36,7 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
     public static String personName;
     public static String personEmail;
     private static final int RC_SIGN_IN = 0;
+    public static  String userNameForDialyChallenge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
                     try {
                         userCredentials.save();
                         Log.e("userCredentials", "userCredentials" + userCredentials.getUserName() + userCredentials.getEmail());
+                        userNameForDialyChallenge = userCredentials.getUserName();
                         Intent intent = new Intent(SplashScreen.this, StartActivity.class);
                         startActivity(intent);
                         finish();

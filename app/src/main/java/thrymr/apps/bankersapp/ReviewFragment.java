@@ -10,12 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by thrymr on 24/9/15.
  */
 public class ReviewFragment extends Fragment {
+    private Integer counter = 0, counter1;
     private List<Question> questionList;
     private TextView currentQs, totalQs, questionTextView, leftArrow, rightArrow;
     Integer QuizModelNumber = 0;
@@ -24,11 +31,29 @@ public class ReviewFragment extends Fragment {
     private String correctAnswer;
     private TextView imageString, imageString1, imageString2, imageString3;
     Typeface font;
+    SharedPref sharedPref;
+    LinkedHashMap<String, Set<String>> stringHashMap;
+    Set<String> stringQuestionSet;
+    Set<String> stringOptionSet;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.review_layout, container, false);
+
+        sharedPref = new SharedPref(getActivity());
+        stringHashMap = new LinkedHashMap<String, Set<String>>();
+
+        stringQuestionSet = new LinkedHashSet<String>();
+        stringOptionSet = new LinkedHashSet<String>();
+        stringHashMap = sharedPref.getOptionSelected();
+
+        stringQuestionSet = stringHashMap.get(SharedPref.QUESTION);
+        Log.d("stringQuestionSet", "ABCD" + stringQuestionSet);
+        stringOptionSet = stringHashMap.get(SharedPref.OPTION);
+        Log.d("stringOptionSet", "ABCD" + stringOptionSet);
+
+
         font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/fontawesome-webfont.ttf");
         currentQs = (TextView) view.findViewById(R.id.currentQs);
         questionTextView = (TextView) view.findViewById(R.id.review_q1);
@@ -49,7 +74,8 @@ public class ReviewFragment extends Fragment {
         leftArrow.setTypeface(font);
         rightArrow.setTypeface(font);
         questionList = Quiz.quesList;
-
+        leftArrow.setVisibility(View.GONE);
+        rightArrow.setVisibility(View.VISIBLE);
         questionTextView.setText(questionList.get(0).getQuestion());
         option1.setText(questionList.get(0).getOptionA());
         option2.setText(questionList.get(0).getOptionB());
@@ -109,11 +135,16 @@ public class ReviewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 QuizModelNumber--;
-                if (QuizModelNumber >= 1) {
+                if (QuizModelNumber == questionList.size() - 1) {
+                    rightArrow.setVisibility(View.GONE);
                     leftArrow.setVisibility(View.VISIBLE);
-                    if (QuizModelNumber == questionList.size() - 1) {
+                } else {
+                    if (QuizModelNumber <= 0) {
                         leftArrow.setVisibility(View.GONE);
                         rightArrow.setVisibility(View.VISIBLE);
+                    } else {
+                        rightArrow.setVisibility(View.VISIBLE);
+                        leftArrow.setVisibility(View.VISIBLE);
                     }
                 }
                 if (QuizModelNumber < questionList.size()) {
@@ -185,12 +216,11 @@ public class ReviewFragment extends Fragment {
                 QuizModelNumber++;
                 Log.e("QuizModelNumber" + QuizModelNumber + "", "size of" + questionList.size());
                 if (QuizModelNumber < questionList.size()) {
-
+                    rightArrow.setVisibility(View.VISIBLE);
+                    leftArrow.setVisibility(View.VISIBLE);
                     currentQuizModel = questionList.get(QuizModelNumber);
                     correctAnswer = currentQuizModel.getAnswer();
-                    if (QuizModelNumber == questionList.size() - 1) {
-                        rightArrow.setVisibility(View.GONE);
-                    }
+
                     currentQs.setText(QuizModelNumber + 1 + " ");
 
                     questionTextView.setText(currentQuizModel.getQuestion());
@@ -244,8 +274,15 @@ public class ReviewFragment extends Fragment {
 
                     }
                 }
+                if (QuizModelNumber == questionList.size() - 1) {
+                    rightArrow.setVisibility(View.GONE);
+                    leftArrow.setVisibility(View.VISIBLE);
+                }
+                
+
             }
         });
+
         return view;
     }
 

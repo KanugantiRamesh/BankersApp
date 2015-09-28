@@ -11,6 +11,13 @@ import java.util.Date;
 @ParseClassName("DailyChallenge")
 public class DailyChallenge extends ParseObject {
 
+    public Integer getTimeTaken() {
+        return getInt("time_taken");
+    }
+
+    public void setTimeTaken(Integer timeTaken) {
+        put("time_taken", timeTaken);
+    }
 
     public String getUserName() {
         return getString("user_name");
@@ -27,6 +34,7 @@ public class DailyChallenge extends ParseObject {
     public void setUserScoredPoints(Number scoredPoints) {
         put("points_scored", scoredPoints);
     }
+
     public Date getDate() {
         return getDate("test_date");
     }
@@ -37,6 +45,6 @@ public class DailyChallenge extends ParseObject {
 
     @Override
     public String toString() {
-        return getString("user_name")+"\n"+getNumber("points_scored");
+        return getString("user_name") + "\n" + getNumber("points_scored");
     }
 }
