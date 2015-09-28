@@ -44,6 +44,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         ParseObject.registerSubclass(DailyChallenge.class);
         ParseObject.registerSubclass(SpeedMathsChallenge.class);
+        ParseObject.registerSubclass(Updates.class);
         Parse.initialize(this, "5QPOyyZjjWf0xyWXpBfwf6bNljAYzu9wmGsti1DN", "lkaXuewH6QYMXcqovcmw9Dr3BJ5ghMpJ7MnFCK1x");
 
 

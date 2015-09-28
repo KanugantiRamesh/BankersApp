@@ -11,10 +11,10 @@ import java.util.HashMap;
  */
 public class SharedPref {
 
-   static SharedPreferences pref;
+    static SharedPreferences pref;
     static SharedPreferences examPref;
 
-  static   SharedPreferences.Editor editor;
+    static   SharedPreferences.Editor editor;
 
     Context _context;
 
@@ -33,8 +33,8 @@ public class SharedPref {
         Log.e("","context"+pref+"editor"+editor);
         this._context = context;
 
-            pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
-            editor = pref.edit();
+        pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        editor = pref.edit();
 
     }
 

@@ -1,30 +1,36 @@
 package thrymr.apps.models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 /**
- * Created by thrmyr on 24/9/15.
+ * Created by thrymr on 24/9/15.
  */
-public class UpdatesPojo {
+@ParseClassName("UpdatesPojo")
+public class UpdatesPojo extends ParseObject {
 
-    String evevt, description;
-
-    public UpdatesPojo(String evevt, String description) {
-        this.evevt = evevt;
-        this.description = description;
+    public String getUpdateType() {
+        return getString("updateType");
     }
 
-    public String getEvevt() {
-        return evevt;
-    }
-
-    public void setEvevt(String evevt) {
-        this.evevt = evevt;
+    public void setUpdateType(String name) {
+        put("updateType", name);
     }
 
     public String getDescription() {
-        return description;
+        return getString("updateNotes");
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String name) {
+        put("updateNotes", name);
     }
+
+    public String getUrl() {
+        return getString("updateUrl");
+    }
+
+    public void setUrl(String name) {
+        put("updateUrl", name);
+    }
+
 }

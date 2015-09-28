@@ -60,39 +60,45 @@
 
                 android:orientation="vertical"
                 android:padding="30dp">
+                <LinearLayout
+                    android:layout_width="150dip"
+                    android:layout_height="150dip"
+                    android:orientation="vertical"
+                    android:background="@drawable/dashboard_circle">
+                    <TextView
+                        android:id="@+id/score_daily_challenge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="179"
+                        android:layout_marginTop="25dp"
+                        android:textColor="@color/abc_primary_text_disable_only_material_light"
+                        android:textSize="@dimen/large_text" />
 
-                <TextView
-                    android:id="@+id/score_daily_challenge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="179"
-                    android:textColor="@color/abc_primary_text_disable_only_material_light"
-                    android:textSize="@dimen/large_text" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Points"
+                        android:textColor="@color/background_floating_material_dark" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Points"
-                    android:textColor="@color/background_floating_material_dark" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="Time Bonus"
+                        android:textColor="@color/abc_background_cache_hint_selector_material_dark" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:text="Time Bonus"
-                    android:textColor="@color/abc_background_cache_hint_selector_material_dark" />
-
-                <TextView
-                    android:id="@+id/bonus_point"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="50 Points"
-                    android:textColor="@color/background_floating_material_dark" />
+                    <TextView
+                        android:id="@+id/bonus_point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="50 Points"
+                        android:textColor="@color/background_floating_material_dark" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -279,7 +285,7 @@
                             android:textSize="@dimen/small_text"
 
 
-                       />
+                            />
 
                         <TextView
                             android:id="@+id/takespeedmathstest"

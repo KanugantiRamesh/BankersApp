@@ -23,7 +23,7 @@ public class LeaderBoardAdapter extends ArrayAdapter<LeaderBoardAdapter> {
     ListView searchListview;
 
     public LeaderBoardAdapter(final Context searchActivity,
-                            final List<DailyChallenge> listData) {
+                              final List<DailyChallenge> listData) {
         super(searchActivity, R.layout.list_item);
 
         this.context = searchActivity;

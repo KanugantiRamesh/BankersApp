@@ -56,7 +56,7 @@ public class Quiz extends Fragment {
     public SuperInterface superInterface;
     public static Integer timeInt;
     private CounterClass counterTimer;
-   private  Date today;
+    private  Date today;
     private SharedPref sharedPref;
     private String stringDate;
 
@@ -71,7 +71,7 @@ public class Quiz extends Fragment {
 
         today = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-       stringDate = simpleDateFormat.format(today);
+        stringDate = simpleDateFormat.format(today);
         Log.e("","date"+stringDate);
        /* new CountDownTimer(300000, 1000) {
 

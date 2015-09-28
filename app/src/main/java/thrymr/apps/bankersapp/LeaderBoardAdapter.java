@@ -60,7 +60,7 @@ public class LeaderBoardAdapter extends ArrayAdapter<LeaderBoardAdapter> {
             holder = (ViewHolder) row.getTag();
         String userName = this.foodDetails.get(position).getUserName();
 
-        Character firstLetter = userName.charAt(0);
+        Character firstLetter = Character.toUpperCase(userName.charAt(0));
         if (firstLetter != null) {
             holder.circle.setText(firstLetter.toString());
         } else {

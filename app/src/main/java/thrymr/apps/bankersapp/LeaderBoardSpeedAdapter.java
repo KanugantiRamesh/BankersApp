@@ -63,7 +63,7 @@ public class LeaderBoardSpeedAdapter extends ArrayAdapter<LeaderBoardSpeedAdapte
         Log.d("username is-->",""+foodDetails.get(position));
         String userName = this.foodDetails.get(position).getSpeedUserName();
 
-        Character firstLetter = userName.charAt(0);
+        Character firstLetter = Character.toUpperCase(userName.charAt(0));
         if (firstLetter != null) {
             holder.circle.setText(firstLetter.toString());
         } else {

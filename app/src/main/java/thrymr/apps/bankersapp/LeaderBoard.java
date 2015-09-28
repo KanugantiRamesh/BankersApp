@@ -1,10 +1,10 @@
 package thrymr.apps.bankersapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,19 +29,17 @@ public class LeaderBoard extends Fragment {
     FragmentTabHost mTabHost;
     private String[] tabs = {"Missed Calls", "Dialled", "Received"};
 
-    private Button daily,speed;
+    private Button daily, speed;
     private ListView listview;
     List<DailyChallenge> listValues = new ArrayList<>();
     List<SpeedMathsChallenge> listVlauesSpeedChallenge = new ArrayList<>();
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.leaderboard, container, false);
-        listview = (ListView)view.findViewById(R.id.listViewData);
+        listview = (ListView) view.findViewById(R.id.listViewData);
 
 
-
-
-
-       // ParseQuery<DailyChallenge> query = new ParseQuery<DailyChallenge>("DailyChallenge");
+        // ParseQuery<DailyChallenge> query = new ParseQuery<DailyChallenge>("DailyChallenge");
         ParseQuery<DailyChallenge> query = ParseQuery.getQuery("DailyChallenge");
         try {
             listValues = query.find();
@@ -70,10 +68,8 @@ public class LeaderBoard extends Fragment {
                     SpeedMathsChallenge c = new SpeedMathsChallenge();
                     c.setSpeedUserName(challenge.getSpeedUserName());
                     c.setSpeedUserScoredPoints(challenge.getSpeedUserScoredPoints());
-               c.setSpeedDate(challenge.getSpeedDate());
+                    c.setSpeedDate(challenge.getSpeedDate());
                     listVlauesSpeedChallenge.add(c);
-                    Log.d("listVaues are ----->", "" + listVlauesSpeedChallenge);
-
 
 
                 }
@@ -81,25 +77,30 @@ public class LeaderBoard extends Fragment {
             }
         });
 
-        LeaderBoardAdapter adapter = new LeaderBoardAdapter(getActivity(),  listValues);
+        LeaderBoardAdapter adapter = new LeaderBoardAdapter(getActivity(), listValues);
         listview.setAdapter(adapter);
 
-        daily = (Button)view.findViewById(R.id.daily);
-        speed = (Button)view.findViewById(R.id.speed);
+        daily = (Button) view.findViewById(R.id.daily);
+        speed = (Button) view.findViewById(R.id.speed);
         daily.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 listview.setAdapter(null);
-                LeaderBoardAdapter adapter = new LeaderBoardAdapter(getActivity(),  listValues);
+                LeaderBoardAdapter adapter = new LeaderBoardAdapter(getActivity(), listValues);
                 listview.setAdapter(adapter);
+                speed.setBackgroundColor(Color.rgb(42, 63, 78));
+                daily.setBackgroundResource(R.drawable.btn_yellow);
             }
         });
         speed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listview.setAdapter(null);
-                LeaderBoardSpeedAdapter adapter = new LeaderBoardSpeedAdapter(getActivity(),  listVlauesSpeedChallenge);
+                LeaderBoardSpeedAdapter adapter = new LeaderBoardSpeedAdapter(getActivity(), listVlauesSpeedChallenge);
                 listview.setAdapter(adapter);
+                speed.setBackgroundResource(R.drawable.btn_yellow);
+                daily.setBackgroundColor(Color.rgb(42, 63, 78));
             }
         });
 
